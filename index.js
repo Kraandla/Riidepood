@@ -8,8 +8,12 @@ const app = express();
 const swaggerUI = require('swagger-ui-express');
 const yamljs = require('yamljs');
 
-//const swaggerDocument = yamljs.load('./docs/swagger.json');
-const swaggerDocument = require('./docs/swagger.json');
+const swaggerDocument = yamljs.load('./docs/swagger.yaml');
+//const swaggerDocument = require('./docs/swagger.json');
+
+app.get('/clothing', (req, res) => {
+    res.send(["Jeans", "T-Shirts", "Jackets"]);
+})
 
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
