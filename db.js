@@ -5,6 +5,7 @@ const sequelize = new Sequelize(
         process.env.DB_USERNAME,
         process.env.DB_USERPASS,
     {
+        port: process.env.DB_PORT,
         host: process.env.DB_HOSTNAME,
         dialect: 'mariadb',
         logging: console.log,
@@ -23,6 +24,7 @@ async() => {
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
+db.clothes = require('./models/ClothingItem.js')(sequelize, DataTypes);
 
 const sync = (async () => {
     await sequelize.sync({alter: true});
