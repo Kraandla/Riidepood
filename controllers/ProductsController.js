@@ -1,5 +1,6 @@
 const {db} = require('../db');
 const Utilities = require('./Utilities');
+const UUID = require('../node_modules/uuidv7');
 
 exports.getAll =
 async (req, res) => {
@@ -31,6 +32,7 @@ async (req, res) => {
     return res.status(400).send({error: 'Missing some parameters or they are invalid.'});
     }
     const newProduct = {
+        ProductID: UUID.uuidv7(),
         Name: req.body.Name,
         Price: req.body.Price,
         Image: req.body.Image || null,
@@ -39,7 +41,7 @@ async (req, res) => {
     const createdProduct = await db.products.create(newProduct);
     return res
     .location
-    (`${Utilities.getBaseUrl(req)}/clothes/${createdProduct.ProductID}`)
+    (`${Utilities.getBaseUrl(req)}/products/${createdProduct.ProductID}`)
     .sendStatus(201);
 }
 
@@ -54,7 +56,7 @@ async (req, res) => {
 
     const product = await db.products.findByPk(idNumber);
     if(!product) {
-        res.status(404).send({error: `Clothing item with ID ${idNumber} not found.`});
+        res.status(404).send({error: `Product with ID ${idNumber} not found.`});
         return null;
     }
     return product;
