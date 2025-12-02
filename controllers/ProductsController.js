@@ -3,20 +3,20 @@ const Utilities = require('./Utilities');
 
 exports.getAll =
 async (req, res) => {
-    const clothes = await db.clothes.findAll();
-    console.log("getAll: " + clothes);
+    const Allproducts = await db.products.findAll();
+    console.log("getAll: " + Allproducts);
     res
     .status(200)
-    .send(clothes.map(({ClothingItemID, Name, Price}) => {return{ClothingItemID, Name, Price}}));
+    .send(Allproducts.map(({ProductID, Name, Price}) => {return{ProductID, Name, Price}}));
 }
 
 exports.getByID = 
 async (req, res) => {
-    const ClothingItem = await getClothingItem(req, res);
+    const Product = await getProduct(req, res);
     
-    if (!ClothingItem) {return res.status(404).send({error: 'Clothing item not found'});}
+    if (!Product) {return res.status(404).send({error: 'Product not found'});}
     
-    return res.status(200).send(ClothingItem);
+    return res.status(200).send(Product);
 }
 
 
@@ -30,32 +30,32 @@ async (req, res) => {
     ){
     return res.status(400).send({error: 'Missing some parameters or they are invalid.'});
     }
-    const newClothingItem = {
+    const newProduct = {
         Name: req.body.Name,
         Price: req.body.Price,
         Image: req.body.Image || null,
     }
 
-    const createdClothingItem = await db.clothes.create(newClothingItem);
+    const createdProduct = await db.products.create(newProduct);
     return res
     .location
-    (`${Utilities.getBaseUrl(req)}/clothes/${createdClothingItem.ClothingItemId}`)
+    (`${Utilities.getBaseUrl(req)}/clothes/${createdProduct.ProductID}`)
     .sendStatus(201);
 }
 
-const getClothingItem =
+const getProduct =
 async (req, res) => {
-    const idNumber = req.params.ClothingItemID;
+    const idNumber = req.params.ProductID;
 
     // if(NaN(idNumber)) {
     //     res.status(400).send({error: `Entered ID is not valid. ID number: ${idnumber}`});
     //     return null;
     // }
 
-    const clothingItem = await db.clothes.findByPk(idNumber);
-    if(!clothingItem) {
+    const product = await db.products.findByPk(idNumber);
+    if(!product) {
         res.status(404).send({error: `Clothing item with ID ${idNumber} not found.`});
         return null;
     }
-    return clothingItem;
+    return product;
 }

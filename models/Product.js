@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-    const ClothingItem = sequelize.define(
-    'Clothes', {
+    const Product = sequelize.define(
+    'Products', {
             ProductID: {
                 type: DataTypes.UUID,
                 primaryKey: true,
@@ -19,6 +19,6 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: true,
             }
     })
-    console.log(ClothingItem === sequelize.models.ClothingItem);
-    return ClothingItem;
+    console.log(Product === sequelize.models.Product);
+    return Product;
 }

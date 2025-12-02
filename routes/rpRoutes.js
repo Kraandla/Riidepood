@@ -1,8 +1,9 @@
-const ClothesController = require("../controllers/ClothesController");
+const ProductsController = require("../controllers/ProductsController");
 
 module.exports = (app) => {
-    app.route("/clothing")
-    .get(ClothesController.getAll);
-    app.route("/clothing/:ClothingItemID")
-    .get(ClothesController.getByID);
+    app.route("/products")
+    .get(ProductsController.getAll)
+    .post(ProductsController.create);
+    app.route("/products/:ProductID")
+    .get(ProductsController.getByID);
 }

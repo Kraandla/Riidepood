@@ -7,7 +7,7 @@ paths:
     /product:
         get:
             tags:
-                - Clothing
+                - Product
             responses:
                 '200':
                     description: Returns a list of products
@@ -23,6 +23,8 @@ paths:
             summary: Get all the clothing in the API
             description: Returns all products that are registered in API
         post:
+            tags:
+                - Product
             parameters:
                 -
                     name: body
@@ -42,10 +44,10 @@ paths:
                         $ref: '#/definitions/Error'
             summary: Create a new product into the app
             description: 'Creates a new product instance with its required details, for further usage.'
-    '/product/{ClothingItemID}':
+    '/product/{ProductID}':
         get:
             tags:
-                - clothing
+                - Product
             responses:
                 '200':
                     description: Returns all details of the given product
