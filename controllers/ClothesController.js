@@ -13,8 +13,34 @@ async (req, res) => {
 exports.getByID = 
 async (req, res) => {
     const ClothingItem = await getClothingItem(req, res);
+    
     if (!ClothingItem) {return res.status(404).send({error: 'Clothing item not found'});}
+    
     return res.status(200).send(ClothingItem);
+}
+
+
+
+exports.create =
+async (req, res) => {
+    if (
+        !req.body.Name ||
+        !req.body.Price ||
+        isNaN(req.body.Price)
+    ){
+    return res.status(400).send({error: 'Missing some parameters or they are invalid.'});
+    }
+    const newClothingItem = {
+        Name: req.body.Name,
+        Price: req.body.Price,
+        Image: req.body.Image || null,
+    }
+
+    const createdClothingItem = await db.clothes.create(newClothingItem);
+    return res
+    .location
+    (`${Utilities.getBaseUrl(req)}/clothes/${createdClothingItem.ClothingItemId}`)
+    .sendStatus(201);
 }
 
 const getClothingItem =

@@ -4,13 +4,13 @@ info:
     version: 1.0.0
     description: hinda riideid ja pritsi tatti
 paths:
-    /clothing:
+    /product:
         get:
             tags:
                 - Clothing
             responses:
                 '200':
-                    description: Returns a list of clothing items
+                    description: Returns a list of products
                     schema:
                         type: array
                         items:
@@ -21,14 +21,34 @@ paths:
                             - T-Shirts
                             - Jackets
             summary: Get all the clothing in the API
-            description: Returns all clothing that are registered in API
-    '/clothing/{ClothingItemID}':
+            description: Returns all products that are registered in API
+        post:
+            parameters:
+                -
+                    name: body
+                    description: The <product> that is to be created
+                    schema:
+                        $ref: '#/definitions/new-Product'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Send 201 when <Product> is successfully added to the database
+                    schema:
+                        $ref: '#/definitions/new-Product'
+                '400':
+                    description: Send 400 when the new <Product> has no name or price and if the price is not a number.
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Create a new product into the app
+            description: 'Creates a new product instance with its required details, for further usage.'
+    '/product/{ClothingItemID}':
         get:
             tags:
                 - clothing
             responses:
                 '200':
-                    description: Returns all details of the given clothing item
+                    description: Returns all details of the given product
                     schema:
                         type: array
                         items:
@@ -43,7 +63,7 @@ paths:
                 '404':
                     schema:
                         $ref: '#/definitions/Error'
-            description: Will return all details of a given clothing item based on the given clothing item ID
+            description: Will return all details of a given product based on the given product ID
 definitions:
     Error:
         title: Root Type for Error
@@ -54,3 +74,23 @@ definitions:
                 type: string
         example:
             error: Error message
+    new-Product:
+        title: Root Type for new-CLothing-Item
+        description: 'Contains name, price and image parameters for product instance'
+        required:
+            - Name
+            - Price
+        type: object
+        properties:
+            Name:
+                type: string
+            Price:
+                format: double
+                type: number
+                readOnly: false
+            Image:
+                type: string
+        example:
+            Name: NewProductName
+            Price: NewProductPrice
+            Image: NewProductImage
