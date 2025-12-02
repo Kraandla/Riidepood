@@ -4,7 +4,7 @@ info:
     version: 1.0.0
     description: hinda riideid ja pritsi tatti
 paths:
-    /product:
+    /products:
         get:
             tags:
                 - Product
@@ -44,10 +44,16 @@ paths:
                         $ref: '#/definitions/Error'
             summary: Create a new product into the app
             description: 'Creates a new product instance with its required details, for further usage.'
-    '/product/{ProductID}':
+    '/products/{ProductID}':
         get:
             tags:
                 - Product
+            parameters:
+                -
+                    name: ClothingItemID
+                    in: path
+                    required: true
+                    type: string
             responses:
                 '200':
                     description: Returns all details of the given product
@@ -94,5 +100,5 @@ definitions:
                 type: string
         example:
             Name: NewProductName
-            Price: NewProductPrice
+            Price: 50
             Image: NewProductImage
