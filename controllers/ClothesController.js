@@ -7,5 +7,29 @@ async (req, res) => {
     console.log("getAll: " + clothes);
     res
     .status(200)
-    .send(clothes.map(({ClothingItemID, Name, Price, Image}) => {return{ClothingItemID, Name}}));
+    .send(clothes.map(({ClothingItemID, Name, Price}) => {return{ClothingItemID, Name, Price}}));
+}
+
+exports.getByID = 
+async (req, res) => {
+    const ClothingItem = await getClothingItem(req, res);
+    if (!ClothingItem) {return res.status(404).send({error: 'Clothing item not found'});}
+    return res.status(200).send(ClothingItem);
+}
+
+const getClothingItem =
+async (req, res) => {
+    const idNumber = req.params.ClothingItemID;
+
+    // if(NaN(idNumber)) {
+    //     res.status(400).send({error: `Entered ID is not valid. ID number: ${idnumber}`});
+    //     return null;
+    // }
+
+    const clothingItem = await db.clothes.findByPk(idNumber);
+    if(!clothingItem) {
+        res.status(404).send({error: `Clothing item with ID ${idNumber} not found.`});
+        return null;
+    }
+    return clothingItem;
 }

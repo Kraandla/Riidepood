@@ -8,15 +8,6 @@ paths:
         get:
             tags:
                 - Clothing
-            parameters:
-                -
-                    name: body
-                    schema:
-                        type: array
-                        items:
-                            type: string
-                    in: body
-                    required: true
             responses:
                 '200':
                     description: Returns a list of clothing items
@@ -31,3 +22,35 @@ paths:
                             - Jackets
             summary: Get all the clothing in the API
             description: Returns all clothing that are registered in API
+    '/clothing/{ClothingItemID}':
+        get:
+            tags:
+                - clothing
+            responses:
+                '200':
+                    description: Returns all details of the given clothing item
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        Singular product:
+                            ProductID: 76be1daf-cec2-11f0-b43f-901b0eec5991
+                            Name: Shirt
+                            Price: 13.44
+                            createdAt: '2025-12-01T16:31:14.000Z'
+                            updatedAt: '2025-12-01T16:31:14.000Z'
+                '404':
+                    schema:
+                        $ref: '#/definitions/Error'
+            description: Will return all details of a given clothing item based on the given clothing item ID
+definitions:
+    Error:
+        title: Root Type for Error
+        description: ''
+        type: object
+        properties:
+            error:
+                type: string
+        example:
+            error: Error message
