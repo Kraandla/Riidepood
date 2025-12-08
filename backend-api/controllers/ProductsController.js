@@ -54,6 +54,49 @@ async (req, res) => {
     res.status(204).send({error: "No Content"});
 }
 
+exports.modifyById =
+async (req, res) => {
+    const productToBeModified = await getProduct(req, res);
+
+    if (!productToBeModified) {return res.status(404).send({error: 'Product not found'});}
+
+    //add control for updated values here
+    if (
+        (!req.body.Name && !req.body.Price && !req.body.Image) ||
+
+        (   
+        req.body.Name == productToBeModified.Name &&
+        req.body.Price == productToBeModified.Price &&
+        req.body.Image == productToBeModified.Image
+        )
+    ){return res.status(400).send({error: 'No new parameters given or they are invalid.'})}
+
+
+    if (!req.body.Name) 
+    {
+        req.body.Name = productToBeModified.Name;
+    } else {
+        productToBeModified.Name = req.body.Name;
+    }
+
+    if (!req.body.Price) {
+        req.body.price = productToBeModified.Price;
+    } else {
+        productToBeModified.Price = req.body.Price;
+    }
+
+    if (!req.body.Price) {
+        req.body.Image = productToBeModified.Image;
+    } else {
+        productToBeModified.Image = req.body.Image;
+    }
+
+    await productToBeModified.save();
+    return res.location(`${Utilities.getBaseUrl(req)}/films/${productToBeModified.ProductID}`)
+    .sendStatus(201).send(productToBeModified);
+
+}
+
 const getProduct =
 async (req, res) => {
     const idNumber = req.params.ProductID;

@@ -63,9 +63,59 @@ paths:
                             createdAt: '2025-12-01T16:31:14.000Z'
                             updatedAt: '2025-12-01T16:31:14.000Z'
                 '404':
+                    description: Given <product> instance could not been found
                     schema:
                         $ref: '#/definitions/Error'
             description: Will return all details of a given product based on the given product ID
+        put:
+            tags:
+                - Product
+            parameters:
+                -
+                    name: body
+                    description: Contains new data to be changed in the specified <product>
+                    schema:
+                        $ref: '#/definitions/new-Product'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Returns 201 upon successful modification of <product>
+                    schema:
+                        $ref: '#/definitions/new-Product'
+                    examples:
+                        application/json:
+                            -
+                                Name: x
+                                Price: 28.1
+                                Image: t
+                        Only Name:
+                            -
+                                Name: x0
+                        Only Price:
+                            -
+                                Price: 47.4
+                        Only Image:
+                            -
+                                Image: r2q
+                '400':
+                    description: Returns 400 when the given <Product> has not been given new parameters.
+                    schema:
+                        $ref: '#/definitions/Error'
+                    examples:
+                        application/json:
+                            -
+                                error: The given parameters have not changed from the original
+                '404':
+                    description: Given <product> instance has not been found.
+                    schema:
+                        $ref: '#/definitions/Error'
+                    examples:
+                        application/json:
+                            -
+                                error: Product has not been found
+            summary: Modifies given product instance
+            description: Changes the details of a given product instance if parameters have been inserted.
         delete:
             tags:
                 - Product
@@ -77,8 +127,10 @@ paths:
                     required: true
                     type: string
             responses:
-                '200':
+                '204':
                     description: The given product instance has been succesfully deleted
+                    schema:
+                        $ref: '#/definitions/Delete-Product'
                 '404':
                     description: The given product instance has not been found
                     schema:
@@ -122,3 +174,12 @@ definitions:
             Name: NewProductName
             Price: 50
             Image: NewProductImage
+    Delete-Product:
+        title: Root Type for Delete-Product
+        description: ''
+        type: object
+        properties:
+            ProductID:
+                type: string
+        example:
+            ProductID: 019adf6b-d945-7ac1-bf4f-280c7c4236e8
