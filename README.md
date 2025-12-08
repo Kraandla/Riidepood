@@ -19,19 +19,19 @@ To run this app with a database in zone.ee,
 * step 5: Return to the "MySQL/MariaDB" page and create a new database. No need to change anything
 * step 6: Go to your newly created user and press "Muuda"
 * step 7: Give the user the following permissions in the new database:
-** Alter
-** Create
-** Delete
-** Execute
-** Insert
-** Select
-** Update
+    - Alter
+    - Create
+    - Delete
+    - Execute
+    - Insert
+    - Select
+    - Update
 * step 8: In the repository backend folder copy the .env.example and remove the .example from the name
 * step 9: In the newly created .env file you have to do the following:
-** add the DB_Hostname(server address) which is located at the "MySQL/MariaDB" page at the top in zone
-** copy the database name from the "MySQL/MariaDB" page and add it to DB_DBNAME
-** copy the user name from the same page and add it to DB_USERNAME
-** add the users password to DB_USERPASS
+    - add the DB_Hostname(server address) which is located at the "MySQL/MariaDB" page at the top in zone
+    - copy the database name from the "MySQL/MariaDB" page and add it to DB_DBNAME
+    - copy the user name from the same page and add it to DB_USERNAME
+    - add the users password to DB_USERPASS
 * Optional: add a separate user with all permissions
 ------
 # Credits
