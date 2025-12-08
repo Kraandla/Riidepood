@@ -48,12 +48,6 @@ paths:
         get:
             tags:
                 - Product
-            parameters:
-                -
-                    name: ClothingItemID
-                    in: path
-                    required: true
-                    type: string
             responses:
                 '200':
                     description: Returns all details of the given product
@@ -72,6 +66,32 @@ paths:
                     schema:
                         $ref: '#/definitions/Error'
             description: Will return all details of a given product based on the given product ID
+        delete:
+            tags:
+                - Product
+            parameters:
+                -
+                    name: ProductID
+                    description: ID of the given product
+                    in: path
+                    required: true
+                    type: string
+            responses:
+                '200':
+                    description: The given product instance has been succesfully deleted
+                '404':
+                    description: The given product instance has not been found
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Deletes the product instance
+            description: Takes a products ID as an argument and deletes the given <product> instance from the database
+        parameters:
+            -
+                name: ProductID
+                description: Product instance database ID
+                in: path
+                required: true
+                type: string
 definitions:
     Error:
         title: Root Type for Error

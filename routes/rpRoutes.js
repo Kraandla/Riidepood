@@ -5,5 +5,6 @@ module.exports = (app) => {
     .get(ProductsController.getAll)
     .post(ProductsController.create);
     app.route("/products/:ProductID")
-    .get(ProductsController.getByID);
+    .get(ProductsController.getByID)
+    .delete(ProductsController.deleteById);
 }

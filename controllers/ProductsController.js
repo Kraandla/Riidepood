@@ -45,6 +45,15 @@ async (req, res) => {
     .sendStatus(201);
 }
 
+exports.deleteById =
+async (req, res) => {
+    const productToBeDeleted = await getProduct(req, res);
+    if (!productToBeDeleted) {return res.status(404).send({error: 'Product not found'});}
+
+    await productToBeDeleted.destroy();
+    res.status(204).send({error: "No Content"});
+}
+
 const getProduct =
 async (req, res) => {
     const idNumber = req.params.ProductID;
