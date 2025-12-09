@@ -144,6 +144,61 @@ paths:
                 in: path
                 required: true
                 type: string
+    /category:
+        post:
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/new-category'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Created new Product Category
+                '400':
+                    description: Send 400 when missing some parameter.
+                    schema:
+                        $ref: '#/definitions/Error'
+                '404':
+                    description: Send 404 when paramets are invalid or missing
+                    schema:
+                        $ref: '#/definitions/Error'
+    '/description/{DescriptionID}':
+        parameters:
+            -
+                name: DescriptionID
+                description: GUUID
+                in: path
+                required: true
+                type: string
+    /description:
+        post:
+            parameters:
+                -
+                    name: body
+                    description: The description to be created
+                    schema:
+                        $ref: '#/definitions/new-product-description'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Description has been successfully created
+                    schema:
+                        $ref: '#/definitions/new-product-description'
+                    examples:
+                        application/json:
+                            -
+                                Material: material
+                                Color: uno
+                                Size: 3x
+                '400':
+                    description: Returns an error if any params are missing or invalid
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Description create test
+            description: 'Creates description with material, color, size'
 definitions:
     Error:
         title: Root Type for Error
@@ -183,3 +238,36 @@ definitions:
                 type: string
         example:
             ProductID: 019adf6b-d945-7ac1-bf4f-280c7c4236e8
+    new-category:
+        title: Root Type for new-category
+        description: New product category
+        type: object
+        properties:
+            Name:
+                type: string
+            Image:
+                type: string
+        example:
+            Name: Example name
+            Image: ImageUrl
+    new-product-description:
+        description: ''
+        required:
+            - Material
+            - Color
+            - Size
+        type: object
+        properties:
+            Material:
+                description: ''
+                type: string
+            Color:
+                description: ''
+                type: string
+            Size:
+                description: ''
+                type: string
+        example:
+            Material: NewMaterialName
+            Color: NewColor
+            Size: NewSize
