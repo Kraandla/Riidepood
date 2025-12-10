@@ -1,6 +1,7 @@
 const {db} = require('../db');
 const Utilities = require('./Utilities');
 const UUID = require('../node_modules/uuidv7');
+const Products = require('./ProductsController')
 
 exports.getAll =
 async (req, res) => {
@@ -13,7 +14,7 @@ async (req, res) => {
 
 exports.getByID = 
 async (req, res) => {
-    const Product = await getProduct(req, res);
+    const Product = await Products.getProduct(req, res);
     
     if (!Product) {return res.status(404).send({error: 'Product not found'});}
     
@@ -36,6 +37,7 @@ async (req, res) => {
         Name: req.body.Name,
         Price: req.body.Price,
         Image: req.body.Image || null,
+        Description: req.body.DescriptionID || null
     }
 
     const createdProduct = await db.products.create(newProduct);
@@ -47,7 +49,7 @@ async (req, res) => {
 
 exports.deleteById =
 async (req, res) => {
-    const productToBeDeleted = await getProduct(req, res);
+    const productToBeDeleted = await Products.getProduct(req, res);
     if (!productToBeDeleted) {return res.status(404).send({error: 'Product not found'});}
 
     await productToBeDeleted.destroy();
@@ -56,7 +58,7 @@ async (req, res) => {
 
 exports.modifyById =
 async (req, res) => {
-    const productToBeModified = await getProduct(req, res);
+    const productToBeModified = await Products.getProduct(req, res);
 
     if (!productToBeModified) {return res.status(404).send({error: 'Product not found'});}
 
@@ -92,14 +94,28 @@ async (req, res) => {
     }
 
     await productToBeModified.save();
-    return res.location(`${Utilities.getBaseUrl(req)}/films/${productToBeModified.ProductID}`)
+    return res.location(`${Utilities.getBaseUrl(req)}/products/${productToBeModified.ProductID}`)
     .sendStatus(201).send(productToBeModified);
 
 }
 
-const getProduct =
+exports.getProduct =
 async (req, res) => {
-    const idNumber = req.params.ProductID;
+    console.log("getproduct body req:\n", req.body);
+    console.log("is body null: ", req.body == null)
+    console.log("getproduct params req:\n", req.params);
+    
+    let idNumber;
+    //checks where to look for product ID
+    //cus description create method doesnt get data in params
+    if (req.body == null){
+        idNumber = req.params.ProductID
+    } else if (req.params == null) {
+        idNumber = req.body.ProductID
+    } else {
+        res.status(400).send({error: "Request could not be read properly."});
+        return null;
+    }
 
     // if(NaN(idNumber)) {
     //     res.status(400).send({error: `Entered ID is not valid. ID number: ${idnumber}`});
@@ -113,3 +129,4 @@ async (req, res) => {
     }
     return product;
 }
+

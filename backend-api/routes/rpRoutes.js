@@ -9,6 +9,6 @@ module.exports = (app) => {
     .get(ProductsController.getByID)
     .delete(ProductsController.deleteById)
     .put(ProductsController.modifyById);
-    app.route("/description")
+    app.route("/descriptions")
     .post(DescriptionsController.create);
 }

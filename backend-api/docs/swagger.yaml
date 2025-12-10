@@ -164,15 +164,7 @@ paths:
                     description: Send 404 when paramets are invalid or missing
                     schema:
                         $ref: '#/definitions/Error'
-    '/description/{DescriptionID}':
-        parameters:
-            -
-                name: DescriptionID
-                description: GUUID
-                in: path
-                required: true
-                type: string
-    /description:
+    /descriptions:
         post:
             parameters:
                 -
@@ -197,8 +189,21 @@ paths:
                     description: Returns an error if any params are missing or invalid
                     schema:
                         $ref: '#/definitions/Error'
-            summary: Description create test
+            summary: Creates a description for a product
             description: 'Creates description with material, color, size'
+    '/descriptions/{DescriptionID}':
+        post:
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/new-product-description'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    schema:
+                        $ref: '#/definitions/new-product-description'
 definitions:
     Error:
         title: Root Type for Error
@@ -253,11 +258,15 @@ definitions:
     new-product-description:
         description: ''
         required:
+            - ProductID
             - Material
             - Color
             - Size
         type: object
         properties:
+            ProductID:
+                description: ''
+                type: string
             Material:
                 description: ''
                 type: string
@@ -268,6 +277,7 @@ definitions:
                 description: ''
                 type: string
         example:
+            ProductID: 019b0891-7288-7b80-b599-a0d0fcf087a4
             Material: NewMaterialName
             Color: NewColor
             Size: NewSize

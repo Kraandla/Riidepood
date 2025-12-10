@@ -23,8 +23,11 @@ async() => {
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-db.products = require('./models/Product.js')(sequelize, DataTypes);
+db.products = require('./models/Product.js')(sequelize, DataTypes, db.descriptions);
 db.descriptions = require('./models/Description.js')(sequelize, DataTypes);
+
+db.products.belongsTo(db.descriptions);
+db.descriptions.hasOne(db.products);
 
 const sync = (async () => {
     await sequelize.sync({alter: true});
