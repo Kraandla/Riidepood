@@ -24,3 +24,24 @@ exports.create = async (req, res) => {
     .sendStatus(201);
 
 };
+
+exports.getAll = async (req, res) => {
+  const Allcategorys = await db.categorys.findAll();
+  console.log("getAll: " + Allcategorys);
+  res
+    .status(200)
+    .send(
+      Allcategorys.map(({ CategoryID, Name, Image }) => {
+        return { CategoryID, Name, Image };
+      })
+    );
+}
+
+exports.deleteById = async (req, res) => {
+  const categoryToBeDeleted = await getCategory(req, res);
+  if (!categoryToBeDeleted) {
+    return res.status(404).send({ error: "Category not found" });
+  }
+  await categoryToBeDeleted.destroy();
+  res.status(204).send({ error: "No Content" });
+}
