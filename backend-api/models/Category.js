@@ -4,7 +4,7 @@ module.exports =(sequelize, DataTypes) => {
             CategoryID: {
                 type: DataTypes.UUID,
                 primaryKey: true,
-                defaultValue: DataTypes.UUIDV7,
+                defaultValue: DataTypes.UUID,
             },
             Name: {
                 type: DataTypes.STRING,
@@ -20,6 +20,5 @@ module.exports =(sequelize, DataTypes) => {
             // }
     })
     console.log(Category === sequelize.models.Category);
-    return Category;
-    
+    return Category;    
 }

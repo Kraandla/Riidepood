@@ -31,4 +31,5 @@ exports.getCategoryByID = async (req, res) => {
     return res.status(404).send({ error: "Category not found" });
   }
   return res.status(200).send(Category);
+
 };

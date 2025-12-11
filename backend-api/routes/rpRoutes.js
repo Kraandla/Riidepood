@@ -1,4 +1,5 @@
 const ProductsController = require("../controllers/ProductsController");
+const CategoryController = require("../controllers/CategoryController");
 
 module.exports = (app) => {
     app.route("/products")
@@ -10,5 +11,5 @@ module.exports = (app) => {
     .put(ProductsController.modifyById);
 
     app.route("/categorys/:CategoryID")
-    .get(ProductsController.getCategoryByID);
+    .get(CategoryController.getCategoryByID);
 }
