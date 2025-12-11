@@ -24,3 +24,11 @@ exports.create = async (req, res) => {
     .sendStatus(201);
 
 };
+
+exports.getCategoryByID = async (req, res) => {
+  const Category = await getCategory(req, res);
+  if (!Category) {
+    return res.status(404).send({ error: "Category not found" });
+  }
+  return res.status(200).send(Category);
+};

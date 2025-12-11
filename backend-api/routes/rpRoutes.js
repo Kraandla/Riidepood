@@ -8,4 +8,7 @@ module.exports = (app) => {
     .get(ProductsController.getByID)
     .delete(ProductsController.deleteById)
     .put(ProductsController.modifyById);
+
+    app.route("/categorys/:CategoryID")
+    .get(ProductsController.getCategoryByID);
 }
