@@ -1,4 +1,5 @@
 const ProductsController = require("../controllers/ProductsController");
+const CategoryController = require("../controllers/CategoryController");
 
 module.exports = (app) => {
     app.route("/products")
@@ -8,4 +9,7 @@ module.exports = (app) => {
     .get(ProductsController.getByID)
     .delete(ProductsController.deleteById)
     .put(ProductsController.modifyById);
+
+    app.route("/categorys")
+    .post(CategoryController.create);
 }
