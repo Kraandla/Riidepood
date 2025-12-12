@@ -11,6 +11,7 @@ module.exports = (app) => {
 
     app.route('/categorys')
     .post(CategoryController.create)
+    .get(CategoryController.getAll);
 
     app.route('/categorys/:CategoryID')
     .delete(CategoryController.deleteById);

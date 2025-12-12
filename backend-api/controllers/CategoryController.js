@@ -33,3 +33,22 @@ exports.deleteById = async (req, res) => {
   await categoryToBeDeleted.destroy();
   res.status(204).send({ error: "No Content" });
 }
+
+exports.getAll = async (req, res) => {
+    const Allcategorys = await db.categorys.findAll();
+    console.log("getAll: " + Allcategorys);
+    res
+    .status(200)
+    .send(Allcategorys.map(({CategoryID, Name, Image}) => {return{CategoryID, Name, Image}}));
+};
+
+
+const getCategory = async (req, res) => {
+  const CategoryID = req.params.CategoryID;
+  const category = await db.categorys.findByPk(CategoryID);
+  if (!category) {
+    res.status(404).send({ error: `Category with ID ${CategoryID} not found` });
+    return null;
+  }
+  return category;
+};
