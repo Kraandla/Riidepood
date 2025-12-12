@@ -25,18 +25,6 @@ exports.create = async (req, res) => {
 
 };
 
-exports.getAll = async (req, res) => {
-  const Allcategorys = await db.categorys.findAll();
-  console.log("getAll: " + Allcategorys);
-  res
-    .status(200)
-    .send(
-      Allcategorys.map(({ CategoryID, Name, Image }) => {
-        return { CategoryID, Name, Image };
-      })
-    );
-}
-
 exports.deleteById = async (req, res) => {
   const categoryToBeDeleted = await getCategory(req, res);
   if (!categoryToBeDeleted) {

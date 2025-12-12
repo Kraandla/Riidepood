@@ -151,53 +151,6 @@ paths:
                 in: path
                 required: true
                 type: string
-    /category:
-        get:
-            tags:
-                - Category
-            responses:
-                '200':
-                    description: Returns a list of catecorys
-                    schema:
-                        type: array
-                        items:
-                            type: string
-                    examples:
-                        application/json: |-
-                            [
-                                {
-                                "Jeans",
-                                "T-Shirts",
-                                "Jackets"
-                                }
-                                
-                            ]
-            summary: Get all the categorys in the APP
-            description: Returns all categorys that are registered in APP
-        post:
-            parameters:
-                -
-                    name: body
-                    description: The <category> that is to be created
-                    schema:
-                        $ref: '#/definitions/new-category'
-                    in: body
-                    required: true
-            responses:
-                '201':
-                    description: Send 201 when <category> is successfully added to the database
-                    schema:
-                        $ref: '#/definitions/new-category'
-                '400':
-                    description: Send 400 when the new <Category> has no name or image.
-                    schema:
-                        $ref: '#/definitions/Error'
-                '404':
-                    description: Send 404 when paramets are invalid or missing
-                    schema:
-                        $ref: '#/definitions/Error'
-            summary: Create a new category into the app
-            description: 'Creates a new category instance with its required details, for turther usage'
     /descriptions:
         post:
             tags:
@@ -230,7 +183,56 @@ paths:
                 Requires a product ID before creating a description for the product with material, color and
                 size as parameters.
     '/descriptions/{DescriptionID}': {}
-    '/category/{CategoryID}':
+    /categorys:
+        get:
+            tags:
+                - Category
+            responses:
+                '200':
+                    description: Returns a list of catecorys
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json: |-
+                            [
+                                {
+                                "Jeans",
+                                "T-Shirts",
+                                "Jackets"
+                                }
+                                
+                            ]
+            summary: Get all the categorys in the APP
+            description: Returns all categorys that are registered in APP
+        post:
+            tags:
+                - Category
+            parameters:
+                -
+                    name: body
+                    description: The <category> that is to be created
+                    schema:
+                        $ref: '#/definitions/new-category'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Send 201 when <category> is successfully added to the database
+                    schema:
+                        $ref: '#/definitions/new-category'
+                '400':
+                    description: Send 400 when the new <Category> has no name or image.
+                    schema:
+                        $ref: '#/definitions/Error'
+                '404':
+                    description: Send 404 when paramets are invalid or missing
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Create a new category into the app
+            description: 'Creates a new category instance with its required details, for turther usage'
+    '/categorys/{CategoryID}':
         get:
             tags:
                 - Category
@@ -294,6 +296,14 @@ paths:
                     description: The given category instance has been successfully deleted
                     schema:
                         $ref: '#/definitions/Delete-Category'
+                '400':
+                    description: Return 400 when category ID is missing
+                    schema:
+                        $ref: '#/definitions/Error'
+                '404':
+                    description: Returns 404 when a category item with given ID does not exists.
+                    schema:
+                        $ref: '#/definitions/Error'
             summary: Deletes the category instance
             description: Takes a category ID as an argument and deletes the given <category> instance from the database
         parameters:
