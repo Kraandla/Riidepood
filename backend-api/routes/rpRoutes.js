@@ -16,5 +16,6 @@ module.exports = (app) => {
 
     app.route("/categorys/:CategoryID")
     .delete(CategoryController.deleteById)
-    .get(CategoryController.getCategoryByID);
+    .get(CategoryController.getCategoryByID)
+    .put(CategoryController.updateCategoryByID);
 }
