@@ -10,6 +10,11 @@ module.exports = (app) => {
     .delete(ProductsController.deleteById)
     .put(ProductsController.modifyById);
 
+    app.route('/categorys')
+    .post(CategoryController.create)
+    .get(CategoryController.getAll);
+
     app.route("/categorys/:CategoryID")
+    .delete(CategoryController.deleteById)
     .get(CategoryController.getCategoryByID);
 }
