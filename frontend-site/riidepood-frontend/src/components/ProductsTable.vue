@@ -14,7 +14,7 @@
             <th>Product ID</th>
             <th>Product name</th>
         </tr>
-        <tr v-for="item in items" :key="item.FilmID">
+        <tr v-for="item in items" :key="item.ProductID">
             <td>{{item.ProductID}}</td>
             <td>{{item.Name}}</td>
         </tr>
