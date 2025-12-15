@@ -11,10 +11,11 @@ module.exports = (app) => {
     .delete(ProductsController.deleteById)
     .put(ProductsController.modifyById);
 
-    
+
     app.route("/descriptions")
     .post(DescriptionsController.create);
 
     app.route("/descriptions/:DescriptionID")
-    .get(DescriptionsController.getByID);
+    .get(DescriptionsController.getByID)
+    .put(DescriptionsController.modifyById);
 }

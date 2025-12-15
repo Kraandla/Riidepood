@@ -209,6 +209,42 @@ paths:
                     schema:
                         $ref: '#/definitions/Error'
             summary: Gets the specified description
+        put:
+            tags:
+                - Description
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/update-product-description'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Returns 201 upon successful modification
+                    schema:
+                        $ref: '#/definitions/update-product-description'
+                    examples:
+                        application/json:
+                            -
+                                Material: ''
+                                Color: ''
+                                Size: of
+                '400':
+                    description: Description is missing all parameters or the inserted parameters are the same.
+                    schema:
+                        $ref: '#/definitions/Error'
+                '404':
+                    description: Description with the specific ID was not found
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Modifies the given description
+        parameters:
+            -
+                name: DescriptionID
+                in: path
+                required: true
+                type: string
     /categorys:
         get:
             tags:
@@ -425,3 +461,24 @@ definitions:
                 type: string
         example:
             ProductID: 019adf6b-d945-7ac1-bf4f-280c7c4236e8
+    update-product-description:
+        description: ''
+        required:
+            - Material
+            - Color
+            - Size
+        type: object
+        properties:
+            Material:
+                description: ''
+                type: string
+            Color:
+                description: ''
+                type: string
+            Size:
+                description: ''
+                type: string
+        example:
+            Material: UpdatedMaterialName
+            Color: UpdatedColor
+            Size: UpdatedSize

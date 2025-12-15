@@ -56,6 +56,49 @@ async (req, res) => {
     return res.status(200).send(Description);
 }
 
+exports.modifyById =
+async (req, res) => {
+    const descriptionToBeModified = await getDescription(req, res);
+
+    if (!descriptionToBeModified) {return res.status(404).send({error: 'Product not found'});}
+
+    //add control for updated values here
+    if (
+        (!req.body.Material && !req.body.Color && !req.body.Size) ||
+
+        (   
+        req.body.Material == descriptionToBeModified.Material &&
+        req.body.Color == descriptionToBeModified.Color &&
+        req.body.Size == descriptionToBeModified.Size
+        )
+    ){return res.status(400).send({error: 'No new parameters given or they are invalid.'})}
+
+
+    if (!req.body.Material) 
+    {
+        req.body.Material = descriptionToBeModified.Material;
+    } else {
+        descriptionToBeModified.Material = req.body.Material;
+    }
+
+    if (!req.body.Color) {
+        req.body.Color = descriptionToBeModified.Color;
+    } else {
+        descriptionToBeModified.Color = req.body.Color;
+    }
+
+    if (!req.body.Size) {
+        req.body.Size = descriptionToBeModified.Size;
+    } else {
+        descriptionToBeModified.Size = req.body.Size;
+    }
+
+    await descriptionToBeModified.save();
+    return res.location(`${Utilities.getBaseUrl(req)}/products/${descriptionToBeModified.DescriptionID}`)
+    .sendStatus(201).send(descriptionToBeModified);
+
+}
+
 getDescription =
 async (req, res) => {
     const idNumber = req.params.DescriptionID
