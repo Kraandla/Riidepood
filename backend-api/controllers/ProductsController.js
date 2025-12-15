@@ -102,16 +102,16 @@ async (req, res) => {
 exports.getProduct =
 async (req, res) => {
     console.log("getproduct body req:\n", req.body);
-    console.log("is body null: ", !req.body.ProductID);
-    console.log("is params null: ", !req.params.ProductID);
+    console.log("is body null: ", !req.body);
+    console.log("is params null: ", !req.params);
     console.log("getproduct params req:\n", req.params);
     
     let idNumber;
     //checks where to look for product ID
     //cus description create method doesnt get data in params
-    if (!req.body.ProductID){
+    if (!req.body){
         idNumber = req.params.ProductID
-    } else if (!req.params.ProductID) {
+    } else if (!req.params) {
         idNumber = req.body.ProductID
     } else {
         res.status(400).send({error: "Request could not be read properly."});
