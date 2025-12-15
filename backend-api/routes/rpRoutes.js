@@ -17,5 +17,6 @@ module.exports = (app) => {
 
     app.route("/descriptions/:DescriptionID")
     .get(DescriptionsController.getByID)
-    .put(DescriptionsController.modifyById);
+    .put(DescriptionsController.modifyById)
+    .delete(DescriptionsController.deleteById);
 }

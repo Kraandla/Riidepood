@@ -99,6 +99,15 @@ async (req, res) => {
 
 }
 
+exports.deleteById =
+async (req, res) => {
+    const descriptionToBeDeleted = await getDescription(req, res);
+    if (!descriptionToBeDeleted) {return res.status(404).send({error: 'Product not found'});}
+
+    await descriptionToBeDeleted.destroy();
+    res.status(204).send({error: "No Content"});
+}
+
 getDescription =
 async (req, res) => {
     const idNumber = req.params.DescriptionID

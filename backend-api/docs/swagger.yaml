@@ -239,6 +239,19 @@ paths:
                     schema:
                         $ref: '#/definitions/Error'
             summary: Modifies the given description
+        delete:
+            tags:
+                - Description
+            responses:
+                '204':
+                    description: The given description has been successfully deleted
+                    schema:
+                        $ref: '#/definitions/Delete-description'
+                '404':
+                    description: Specified description was not found
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Deletes specific description
         parameters:
             -
                 name: DescriptionID
@@ -482,3 +495,12 @@ definitions:
             Material: UpdatedMaterialName
             Color: UpdatedColor
             Size: UpdatedSize
+    Delete-description:
+        title: Root Type for Delete-description
+        description: ''
+        type: object
+        properties:
+            DescriptionID:
+                type: string
+        example:
+            DescriptionID: 019b0903-25bd-76c2-a06a-d37e6ade8d44
