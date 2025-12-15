@@ -13,8 +13,8 @@ exports.create = async (req, res) => {
   const newCategory = {
     CategoryID: UUID.uuidv7(),
     Name: req.body.Name,
-    Image: req.body.Image || null,
-    ProductId: req.body.ProductId,
+    Image: req.body.Image,
+    ProductProductID: req.body.ProductID || null,
   };
 
 
