@@ -48,6 +48,13 @@ paths:
         get:
             tags:
                 - Product
+            parameters:
+                -
+                    name: ProductID
+                    description: Product instance database ID
+                    in: path
+                    required: true
+                    type: string
             responses:
                 '200':
                     description: Returns all details of the given product
@@ -144,28 +151,10 @@ paths:
                 in: path
                 required: true
                 type: string
-    /category:
-        post:
-            parameters:
-                -
-                    name: body
-                    schema:
-                        $ref: '#/definitions/new-category'
-                    in: body
-                    required: true
-            responses:
-                '201':
-                    description: Created new Product Category
-                '400':
-                    description: Send 400 when missing some parameter.
-                    schema:
-                        $ref: '#/definitions/Error'
-                '404':
-                    description: Send 404 when paramets are invalid or missing
-                    schema:
-                        $ref: '#/definitions/Error'
     /descriptions:
         post:
+            tags:
+                - Description
             parameters:
                 -
                     name: body
@@ -190,20 +179,166 @@ paths:
                     schema:
                         $ref: '#/definitions/Error'
             summary: Creates a description for a product
-            description: 'Creates description with material, color, size'
+            description: >-
+                Requires a product ID before creating a description for the product with material, color and
+                size as parameters.
     '/descriptions/{DescriptionID}':
+        get:
+            tags:
+                - Description
+            parameters:
+                -
+                    name: DescriptionID
+                    in: path
+                    required: true
+                    type: string
+            responses:
+                '200':
+                    description: Returns all the details of the description
+                    schema:
+                        $ref: '#/definitions/new-product-description'
+                    examples:
+                        application/json:
+                            -
+                                ProductID: bn
+                                Material: propo
+                                Color: t
+                                Size: m
+                '404':
+                    description: Given description could not be found
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Gets the specified description
+    /categorys:
+        get:
+            tags:
+                - Category
+            responses:
+                '200':
+                    description: Returns a list of catecorys
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json: |-
+                            [
+                                {
+                                "Jeans",
+                                "T-Shirts",
+                                "Jackets"
+                                }
+                                
+                            ]
+            summary: Get all the categorys in the APP
+            description: Returns all categorys that are registered in APP
         post:
+            tags:
+                - Category
             parameters:
                 -
                     name: body
+                    description: The <category> that is to be created
                     schema:
-                        $ref: '#/definitions/new-product-description'
+                        $ref: '#/definitions/new-category'
                     in: body
                     required: true
             responses:
                 '201':
+                    description: Send 201 when <category> is successfully added to the database
                     schema:
-                        $ref: '#/definitions/new-product-description'
+                        $ref: '#/definitions/new-category'
+                '400':
+                    description: Send 400 when the new <Category> has no name or image.
+                    schema:
+                        $ref: '#/definitions/Error'
+                '404':
+                    description: Send 404 when paramets are invalid or missing
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Create a new category into the app
+            description: 'Creates a new category instance with its required details, for turther usage'
+    '/categorys/{CategoryID}':
+        get:
+            tags:
+                - Category
+            responses:
+                '200':
+                    description: Returns all details of the given category
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                '404':
+                    description: Given <category> instance could not ben found
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Get category by ID
+            description: Returns all details of a given category based on the given category ID
+        put:
+            tags:
+                - Category
+            parameters:
+                -
+                    name: body
+                    description: Containes new data to be changed in the specified <category>
+                    schema:
+                        $ref: '#/definitions/new-category'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Returns 201 upon successful midification of <category>
+                    schema:
+                        $ref: '#/definitions/new-category'
+                    examples:
+                        application/json:
+                            -
+                                Name: 4lb
+                                Image: l3cb
+                '400':
+                    description: Returns 400 when given <Category> has not been given new parametres.
+                    schema:
+                        $ref: '#/definitions/Error'
+                    examples:
+                        application/json:
+                            -
+                                error: The given parameters are missing or invaild
+                '404':
+                    description: Given <Category> instance has not been found
+                    schema:
+                        $ref: '#/definitions/Error'
+                    examples:
+                        application/json:
+                            -
+                                error: Category has not been found
+            summary: Modifies given catgory instance
+            description: Changes the deatils of a given category instance if parameters have been inserted.
+        delete:
+            tags:
+                - Category
+            responses:
+                '204':
+                    description: The given category instance has been successfully deleted
+                    schema:
+                        $ref: '#/definitions/Delete-Category'
+                '400':
+                    description: Return 400 when category ID is missing
+                    schema:
+                        $ref: '#/definitions/Error'
+                '404':
+                    description: Returns 404 when a category item with given ID does not exists.
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Deletes the category instance
+            description: Takes a category ID as an argument and deletes the given <category> instance from the database
+        parameters:
+            -
+                name: CategoryID
+                description: Category instance database ID
+                in: path
+                required: true
+                type: string
 definitions:
     Error:
         title: Root Type for Error
@@ -242,7 +377,7 @@ definitions:
             ProductID:
                 type: string
         example:
-            ProductID: 019adf6b-d945-7ac1-bf4f-280c7c4236e8
+            CategoryID: 019adf6b-d945-7ac1-bf4f-280c7c4236e8
     new-category:
         title: Root Type for new-category
         description: New product category
@@ -281,3 +416,12 @@ definitions:
             Material: NewMaterialName
             Color: NewColor
             Size: NewSize
+    Delete-Category:
+        title: Root Type for Delete-Product
+        description: ''
+        type: object
+        properties:
+            ProductID:
+                type: string
+        example:
+            ProductID: 019adf6b-d945-7ac1-bf4f-280c7c4236e8

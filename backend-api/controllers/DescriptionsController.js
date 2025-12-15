@@ -46,3 +46,24 @@ async (req, res) => {
     return res.location(`${Utilities.getBaseUrl(req)}/descriptions/${createdDescription.DescriptionID}`)
     .sendStatus(201);
 }
+
+exports.getByID = 
+async (req, res) => {
+    const Description = await getDescription(req, res);
+    
+    if (!Description) {return res.status(404).send({error: 'Description not found'});}
+    
+    return res.status(200).send(Description);
+}
+
+getDescription =
+async (req, res) => {
+    const idNumber = req.params.DescriptionID
+
+    const description = await db.descriptions.findByPk(idNumber);
+    if (!description) {
+        res.status(404).send({error: `Description with ID ${idNumber} not found`});
+        return null
+    }
+    return description;
+}
