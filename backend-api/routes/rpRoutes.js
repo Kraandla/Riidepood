@@ -13,6 +13,7 @@ module.exports = (app) => {
 
 
     app.route("/descriptions")
+    .get(DescriptionsController.getAll)
     .post(DescriptionsController.create);
 
     app.route("/descriptions/:DescriptionID")

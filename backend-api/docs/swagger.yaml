@@ -152,6 +152,24 @@ paths:
                 required: true
                 type: string
     /descriptions:
+        get:
+            tags:
+                - Description
+            responses:
+                '200':
+                    description: All descriptions in the app are displayed
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            -
+                                ProductID: 4z3b
+                                Material: '2'
+                                Color: illl
+                                Size: rr6k
+            summary: Gets all the descriptions in the App
         post:
             tags:
                 - Description
@@ -388,6 +406,19 @@ paths:
                 in: path
                 required: true
                 type: string
+    /baskets:
+        get:
+            tags:
+                - Basket
+            responses:
+                '200':
+                    description: Renurns a list of baskets
+                    schema:
+                        type: array
+                        items:
+                            type: string
+            summary: Get all baskets
+            description: Returns all baskets in APP
 definitions:
     Error:
         title: Root Type for Error
