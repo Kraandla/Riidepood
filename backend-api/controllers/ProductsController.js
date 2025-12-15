@@ -87,7 +87,7 @@ async (req, res) => {
         productToBeModified.Price = req.body.Price;
     }
 
-    if (!req.body.Price) {
+    if (!req.body.Image) {
         req.body.Image = productToBeModified.Image;
     } else {
         productToBeModified.Image = req.body.Image;
