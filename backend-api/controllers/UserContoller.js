@@ -29,3 +29,11 @@ exports.createUser = async (req, res) => {
         .sendStatus(201);
 
 }
+
+exports.getUserByID = async (req, res) => {
+    const user = await db.users.findByPk(req.params.UserID);
+    if (!user) {
+        return res.status(404).send({error: "User not found."});
+    }
+    return res.status(200).send(user);
+}
