@@ -470,6 +470,15 @@ paths:
                     description: Send 404 when paramets are invalid or missing
                     schema:
                         $ref: '#/definitions/Error'
+                '409':
+                    description: Returns 409 if email is taken
+                    schema:
+                        $ref: '#/definitions/Error'
+                    examples:
+                        application/json: |-
+                            [
+                              { message: 'Email already exists' }
+                            ]
             summary: Create a nwe User into the app
             description: 'Creates a new User instance with its required details, for futher usage'
     '/users/{UserID}':
@@ -574,6 +583,13 @@ paths:
         post:
             tags:
                 - Order
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/new-Order'
+                    in: body
+                    required: true
             responses:
                 '201':
                     description: Order has been successfully created
@@ -744,3 +760,17 @@ definitions:
                 type: string
         example:
             UserID: 019adf6b-d945-7ac1-bf4f-280c7c4236e8
+    new-Order:
+        title: Root Type for new-Order
+        description: ''
+        type: object
+        properties:
+            Products:
+                type: array
+                items:
+                    type: string
+        example:
+            Products:
+                - id1
+                - id2
+                - id3

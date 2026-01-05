@@ -14,6 +14,9 @@ exports.createUser = async (req, res) => {
     if (!req.body.First_Name || !req.body.Last_Name || !req.body.Email || !req.body.Password) {
         return res.status(400).send({error: "Missing some parameters."});
     }
+    if (await db.users.findOne({where: {Email: req.body.Email}})) {
+        return res.status(409).send({error: "Email already in use."});
+    }
 
     const newUser ={
         UserID: UUID.uuidv7(),
