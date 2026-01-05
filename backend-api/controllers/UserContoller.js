@@ -37,3 +37,20 @@ exports.getUserByID = async (req, res) => {
     }
     return res.status(200).send(user);
 }
+
+exports.updateUserByID = async (req, res) => {
+    const userToBeModified = await db.users.findByPk(req.params.UserID);
+    if (!userToBeModified) {
+        return res.status(404).send({error: "User not found."});
+    }
+      if (!req.body.First_Name || !req.body.Last_Name || !req.body.Email || !req.body.Password) {
+        return res.status(400).send({error: "Missing some parameters."});
+    }
+    userToBeModified.First_Name = req.body.First_Name;
+    userToBeModified.Last_Name = req.body.Last_Name;
+    userToBeModified.Email = req.body.Email;
+    userToBeModified.Password = req.body.Password;
+    await userToBeModified.save();
+    return res.location(`${Utilities.getBaseUrl(req)}/users/${userToBeModified.UserID}`)
+    .sendStatus(201).send(userToBeModified);
+}

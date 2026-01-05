@@ -25,5 +25,6 @@ module.exports = (app) => {
     .post(UserController.createUser);
 
     app.route('/users/:UserID')
-    .get(UserController.getUserByID);
+    .get(UserController.getUserByID)
+    .put(UserController.updateUserByID);
 }

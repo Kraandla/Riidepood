@@ -505,6 +505,46 @@ paths:
             operationId: UserID
             summary: Get all details of existing USer
             description: 'Will return all details of a given User, based on UserID given'
+        put:
+            tags:
+                - Users
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/New-User'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Returns 201 upon successful modification of User
+                    schema:
+                        $ref: '#/definitions/New-User'
+                    examples:
+                        application/json:
+                            First_Name: Malle
+                            Last_Name: Rebane
+                            Email: malle@gmail.com
+                            Password: '12343'
+                            ConfirmPassword: '12343'
+                '400':
+                    description: Returns 400 when given <User> has not been given new parameters.
+                    schema:
+                        $ref: '#/definitions/Error'
+                    examples:
+                        application/json:
+                            -
+                                error: The given parameters are missing or invaild
+                '404':
+                    description: Given <User> instance has not been found
+                    schema:
+                        $ref: '#/definitions/Error'
+                    examples:
+                        application/json:
+                            -
+                                error: User not found
+            summary: Modifies given User instance
+            description: Changes the deatails of a given User instance if parametres have been inserted
         parameters:
             -
                 name: UserID
