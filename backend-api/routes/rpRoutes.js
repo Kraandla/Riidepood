@@ -21,5 +21,6 @@ module.exports = (app) => {
     .put(CategoryController.updateCategoryByID);
 
     app.route('/users')
-    .get(UserController.getAll);
+    .get(UserController.getAll)
+    .post(UserController.createUser);
 }

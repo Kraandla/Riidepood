@@ -446,6 +446,32 @@ paths:
                                 IsAdmin: true
             summary: 'Returns a list of all users, with limited details'
             description: 'Returns a list of all users, with limited details'
+        post:
+            tags:
+                - Users
+            parameters:
+                -
+                    name: body
+                    description: The <user> that is to be created
+                    schema:
+                        $ref: '#/definitions/New-User'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Send 201 when <user> is successfullt added to the database
+                    schema:
+                        $ref: '#/definitions/New-User'
+                '400':
+                    description: Send 400 when a new <user> has invalid inputs
+                    schema:
+                        $ref: '#/definitions/Error'
+                '404':
+                    description: Send 404 when paramets are invalid or missing
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Create a nwe User into the app
+            description: 'Creates a new User instance with its required details, for futher usage'
     '/users/{UserID}':
         get:
             tags:
