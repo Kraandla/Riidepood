@@ -18,4 +18,7 @@ module.exports = (app) => {
     .delete(CategoryController.deleteById)
     .get(CategoryController.getCategoryByID)
     .put(CategoryController.updateCategoryByID);
+
+    app.route('/users')
+    .get(UserController.getAll);
 }

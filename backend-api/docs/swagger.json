@@ -1,50 +1,640 @@
-{
-    "swagger": "2.0",
-    "info": {
-        "title": "Riidepood",
-        "version": "1.0.0",
-        "description": "hinda riideid ja pritsi tatti"
-    },
-    "paths": {
-        "/clothing": {
-            "get": {
-                "tags": [
-                    "Clothing"
-                ],
-                "parameters": [
-                    {
-                        "name": "body",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        },
-                        "in": "body",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Returns a list of clothing items",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        },
-                        "examples": {
-                            "application/json": [
+swagger: '2.0'
+info:
+    title: Riidepood
+    version: 1.0.0
+    description: hinda riideid ja pritsi tatti
+paths:
+    /products:
+        get:
+            tags:
+                - Product
+            responses:
+                '200':
+                    description: Returns a list of products
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            - Jeans
+                            - T-Shirts
+                            - Jackets
+            summary: Get all the clothing in the API
+            description: Returns all products that are registered in API
+        post:
+            tags:
+                - Product
+            parameters:
+                -
+                    name: body
+                    description: The <product> that is to be created
+                    schema:
+                        $ref: '#/definitions/new-Product'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Send 201 when <Product> is successfully added to the database
+                    schema:
+                        $ref: '#/definitions/new-Product'
+                '400':
+                    description: Send 400 when the new <Product> has no name or price and if the price is not a number.
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Create a new product into the app
+            description: 'Creates a new product instance with its required details, for further usage.'
+    '/products/{ProductID}':
+        get:
+            tags:
+                - Product
+            parameters:
+                -
+                    name: ProductID
+                    description: Product instance database ID
+                    in: path
+                    required: true
+                    type: string
+            responses:
+                '200':
+                    description: Returns all details of the given product
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        Singular product:
+                            ProductID: 76be1daf-cec2-11f0-b43f-901b0eec5991
+                            Name: Shirt
+                            Price: 13.44
+                            createdAt: '2025-12-01T16:31:14.000Z'
+                            updatedAt: '2025-12-01T16:31:14.000Z'
+                '404':
+                    description: Given <product> instance could not been found
+                    schema:
+                        $ref: '#/definitions/Error'
+            description: Will return all details of a given product based on the given product ID
+        put:
+            tags:
+                - Product
+            parameters:
+                -
+                    name: body
+                    description: Contains new data to be changed in the specified <product>
+                    schema:
+                        $ref: '#/definitions/new-Product'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Returns 201 upon successful modification of <product>
+                    schema:
+                        $ref: '#/definitions/new-Product'
+                    examples:
+                        application/json:
+                            -
+                                Name: x
+                                Price: 28.1
+                                Image: t
+                        Only Name:
+                            -
+                                Name: x0
+                        Only Price:
+                            -
+                                Price: 47.4
+                        Only Image:
+                            -
+                                Image: r2q
+                '400':
+                    description: Returns 400 when the given <Product> has not been given new parameters.
+                    schema:
+                        $ref: '#/definitions/Error'
+                    examples:
+                        application/json:
+                            -
+                                error: The given parameters have not changed from the original
+                '404':
+                    description: Given <product> instance has not been found.
+                    schema:
+                        $ref: '#/definitions/Error'
+                    examples:
+                        application/json:
+                            -
+                                error: Product has not been found
+            summary: Modifies given product instance
+            description: Changes the details of a given product instance if parameters have been inserted.
+        delete:
+            tags:
+                - Product
+            parameters:
+                -
+                    name: ProductID
+                    description: ID of the given product
+                    in: path
+                    required: true
+                    type: string
+            responses:
+                '204':
+                    description: The given product instance has been succesfully deleted
+                    schema:
+                        $ref: '#/definitions/Delete-Product'
+                '404':
+                    description: The given product instance has not been found
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Deletes the product instance
+            description: Takes a products ID as an argument and deletes the given <product> instance from the database
+        parameters:
+            -
+                name: ProductID
+                description: Product instance database ID
+                in: path
+                required: true
+                type: string
+    /descriptions:
+        get:
+            tags:
+                - Description
+            responses:
+                '200':
+                    description: All descriptions in the app are displayed
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            -
+                                ProductID: 4z3b
+                                Material: '2'
+                                Color: illl
+                                Size: rr6k
+            summary: Gets all the descriptions in the App
+        post:
+            tags:
+                - Description
+            parameters:
+                -
+                    name: body
+                    description: The description to be created
+                    schema:
+                        $ref: '#/definitions/new-product-description'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Description has been successfully created
+                    schema:
+                        $ref: '#/definitions/new-product-description'
+                    examples:
+                        application/json:
+                            -
+                                Material: material
+                                Color: uno
+                                Size: 3x
+                '400':
+                    description: Returns an error if any params are missing or invalid
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Creates a description for a product
+            description: >-
+                Requires a product ID before creating a description for the product with material, color and
+                size as parameters.
+    '/descriptions/{DescriptionID}':
+        get:
+            tags:
+                - Description
+            parameters:
+                -
+                    name: DescriptionID
+                    in: path
+                    required: true
+                    type: string
+            responses:
+                '200':
+                    description: Returns all the details of the description
+                    schema:
+                        $ref: '#/definitions/new-product-description'
+                    examples:
+                        application/json:
+                            -
+                                ProductID: bn
+                                Material: propo
+                                Color: t
+                                Size: m
+                '404':
+                    description: Given description could not be found
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Gets the specified description
+        put:
+            tags:
+                - Description
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/update-product-description'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Returns 201 upon successful modification
+                    schema:
+                        $ref: '#/definitions/update-product-description'
+                    examples:
+                        application/json:
+                            -
+                                Material: ''
+                                Color: ''
+                                Size: of
+                '400':
+                    description: Description is missing all parameters or the inserted parameters are the same.
+                    schema:
+                        $ref: '#/definitions/Error'
+                '404':
+                    description: Description with the specific ID was not found
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Modifies the given description
+        delete:
+            tags:
+                - Description
+            responses:
+                '204':
+                    description: The given description has been successfully deleted
+                    schema:
+                        $ref: '#/definitions/Delete-description'
+                '404':
+                    description: Specified description was not found
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Deletes specific description
+        parameters:
+            -
+                name: DescriptionID
+                in: path
+                required: true
+                type: string
+    /categorys:
+        get:
+            tags:
+                - Category
+            responses:
+                '200':
+                    description: Returns a list of catecorys
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json: |-
+                            [
+                                {
                                 "Jeans",
                                 "T-Shirts",
                                 "Jackets"
+                                }
+                                
                             ]
-                        }
-                    }
-                },
-                "summary": "Get all the clothing in the API",
-                "description": "Returns all clothing that are registered in API"
-            }
-        }
-    }
-}
+            summary: Get all the categorys in the APP
+            description: Returns all categorys that are registered in APP
+        post:
+            tags:
+                - Category
+            parameters:
+                -
+                    name: body
+                    description: The <category> that is to be created
+                    schema:
+                        $ref: '#/definitions/new-category'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Send 201 when <category> is successfully added to the database
+                    schema:
+                        $ref: '#/definitions/new-category'
+                '400':
+                    description: Send 400 when the new <Category> has no name or image.
+                    schema:
+                        $ref: '#/definitions/Error'
+                '404':
+                    description: Send 404 when paramets are invalid or missing
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Create a new category into the app
+            description: 'Creates a new category instance with its required details, for turther usage'
+    '/categorys/{CategoryID}':
+        get:
+            tags:
+                - Category
+            responses:
+                '200':
+                    description: Returns all details of the given category
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                '404':
+                    description: Given <category> instance could not ben found
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Get category by ID
+            description: Returns all details of a given category based on the given category ID
+        put:
+            tags:
+                - Category
+            parameters:
+                -
+                    name: body
+                    description: Containes new data to be changed in the specified <category>
+                    schema:
+                        $ref: '#/definitions/new-category'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Returns 201 upon successful midification of <category>
+                    schema:
+                        $ref: '#/definitions/new-category'
+                    examples:
+                        application/json:
+                            -
+                                Name: 4lb
+                                Image: l3cb
+                '400':
+                    description: Returns 400 when given <Category> has not been given new parametres.
+                    schema:
+                        $ref: '#/definitions/Error'
+                    examples:
+                        application/json:
+                            -
+                                error: The given parameters are missing or invaild
+                '404':
+                    description: Given <Category> instance has not been found
+                    schema:
+                        $ref: '#/definitions/Error'
+                    examples:
+                        application/json:
+                            -
+                                error: Category has not been found
+            summary: Modifies given catgory instance
+            description: Changes the deatils of a given category instance if parameters have been inserted.
+        delete:
+            tags:
+                - Category
+            responses:
+                '204':
+                    description: The given category instance has been successfully deleted
+                    schema:
+                        $ref: '#/definitions/Delete-Category'
+                '400':
+                    description: Return 400 when category ID is missing
+                    schema:
+                        $ref: '#/definitions/Error'
+                '404':
+                    description: Returns 404 when a category item with given ID does not exists.
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Deletes the category instance
+            description: Takes a category ID as an argument and deletes the given <category> instance from the database
+        parameters:
+            -
+                name: CategoryID
+                description: Category instance database ID
+                in: path
+                required: true
+                type: string
+    /baskets:
+        get:
+            tags:
+                - Basket
+            responses:
+                '200':
+                    description: Renurns a list of baskets
+                    schema:
+                        type: array
+                        items:
+                            type: string
+            summary: Get all baskets
+            description: Returns all baskets in APP
+    /users:
+        get:
+            tags:
+                - Users
+            responses:
+                '200':
+                    description: Returns a list of existing Users
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            -
+                                UserID: jkdalskjfkas
+                                UserName: Peeter
+                                IsAdmin: false
+                            -
+                                UserID: lkfdölölfds
+                                UserName: Mati
+                                IsAdmin: false
+                            -
+                                UserID: ruökfldjösa
+                                UserName: kati
+                                IsAdmin: true
+            summary: 'Returns a list of all users, with limited details'
+            description: 'Returns a list of all users, with limited details'
+    '/users/{UserID}':
+        get:
+            tags:
+                - Users
+            responses:
+                '200':
+                    description: Returns all details of the given User
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            UserID: jfölkdsajfaöi
+                            FirstName: kati
+                            LastName: Karu
+                            Email: kati.karu@gmail.com
+                            PasswordHASH: jdlsahfleaehflakshfalkjhfluewauhfe
+                            RegistrationDate: 12.12.2025
+                            LastLogin: ' 13.12.2025'
+                            IsAdmin: false
+                            OrderID: []
+                '404':
+                    description: Retrun error when user is not found
+                    schema:
+                        $ref: '#/definitions/Error'
+                    examples:
+                        application/json:
+                            -
+                                error: User not found
+            operationId: UserID
+            summary: Get all details of existing USer
+            description: 'Will return all details of a given User, based on UserID given'
+        parameters:
+            -
+                name: UserID
+                description: ID of user
+                in: path
+                required: true
+                type: string
+    /orders: {}
+    '/orders/{OrderID}': {}
+definitions:
+    Error:
+        title: Root Type for Error
+        description: ''
+        type: object
+        properties:
+            error:
+                type: string
+        example:
+            error: Error message
+    new-Product:
+        title: Root Type for new-CLothing-Item
+        description: 'Contains name, price and image parameters for product instance'
+        required:
+            - Name
+            - Price
+        type: object
+        properties:
+            Name:
+                type: string
+            Price:
+                format: double
+                type: number
+                readOnly: false
+            Image:
+                type: string
+        example:
+            Name: NewProductName
+            Price: 50
+            Image: NewProductImage
+    Delete-Product:
+        title: Root Type for Delete-Product
+        description: ''
+        type: object
+        properties:
+            ProductID:
+                type: string
+        example:
+            CategoryID: 019adf6b-d945-7ac1-bf4f-280c7c4236e8
+    new-category:
+        title: Root Type for new-category
+        description: New product category
+        type: object
+        properties:
+            Name:
+                type: string
+            Image:
+                type: string
+        example:
+            Name: Example name
+            Image: ImageUrl
+    new-product-description:
+        description: ''
+        required:
+            - ProductID
+            - Material
+            - Color
+            - Size
+        type: object
+        properties:
+            ProductID:
+                description: ''
+                type: string
+            Material:
+                description: ''
+                type: string
+            Color:
+                description: ''
+                type: string
+            Size:
+                description: ''
+                type: string
+        example:
+            ProductID: 019b0891-7288-7b80-b599-a0d0fcf087a4
+            Material: NewMaterialName
+            Color: NewColor
+            Size: NewSize
+    Delete-Category:
+        title: Root Type for Delete-Product
+        description: ''
+        type: object
+        properties:
+            ProductID:
+                type: string
+        example:
+            ProductID: 019adf6b-d945-7ac1-bf4f-280c7c4236e8
+    update-product-description:
+        description: ''
+        required:
+            - Material
+            - Color
+            - Size
+        type: object
+        properties:
+            Material:
+                description: ''
+                type: string
+            Color:
+                description: ''
+                type: string
+            Size:
+                description: ''
+                type: string
+        example:
+            Material: UpdatedMaterialName
+            Color: UpdatedColor
+            Size: UpdatedSize
+    Delete-description:
+        title: Root Type for Delete-description
+        description: ''
+        type: object
+        properties:
+            DescriptionID:
+                type: string
+        example:
+            DescriptionID: 019b0903-25bd-76c2-a06a-d37e6ade8d44
+    New-User:
+        title: Root Type for New-User
+        description: Contains user full details
+        type: object
+        properties:
+            UserID:
+                type: string
+            FirstName:
+                type: string
+            LastName:
+                type: string
+            Email:
+                type: string
+            PasswordHASH:
+                type: string
+            RegistrationDate:
+                type: string
+            LastLogin:
+                type: string
+            IsAdmin:
+                type: boolean
+            OrderID:
+                type: array
+                items: {}
+        example:
+            UserID: jfölkdsajfaöi
+            FirstName: kati
+            LastName: Karu
+            Email: kati.karu@gmail.com
+            PasswordHASH: jdlsahfleaehflakshfalkjhfluewauhfe
+            RegistrationDate: 12.12.2025
+            LastLogin: ' 13.12.2025'
+            IsAdmin: false
+            OrderID: []
