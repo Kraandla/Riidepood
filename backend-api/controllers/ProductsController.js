@@ -106,17 +106,7 @@ async (req, res) => {
     console.log("is params null: ", !req.params);
     console.log("getproduct params req:\n", req.params);
     
-    let idNumber;
-    //checks where to look for product ID
-    //cus description create method doesnt get data in params
-    if (!req.body){
-        idNumber = req.params.ProductID
-    } else if (!req.params) {
-        idNumber = req.body.ProductID
-    } else {
-        res.status(400).send({error: "Request could not be read properly."});
-        return null;
-    }
+    const idNumber = req.params.ProductID || req.body.ProductID;
 
     // if(NaN(idNumber)) {
     //     res.status(400).send({error: `Entered ID is not valid. ID number: ${idnumber}`});
