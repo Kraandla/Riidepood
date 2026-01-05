@@ -17,6 +17,10 @@ module.exports = (sequelize, DataTypes) => {
             Image: {
                 type: DataTypes.STRING,
                 allowNull: true,
+            },
+            Amount: {
+                type: DataTypes.BIGINT,
+                allowNull: false,
             }
     })
     console.log(Product === sequelize.models.Product);

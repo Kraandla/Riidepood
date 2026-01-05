@@ -10,10 +10,6 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.TINYINT(1),
                 allowNull: false,
             },
-            Items: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
         })
     console.log(Order === sequelize.models.Order);
     return Order;
