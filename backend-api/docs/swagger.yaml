@@ -152,6 +152,24 @@ paths:
                 required: true
                 type: string
     /descriptions:
+        get:
+            tags:
+                - Description
+            responses:
+                '200':
+                    description: All descriptions in the app are displayed
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            -
+                                ProductID: 4z3b
+                                Material: '2'
+                                Color: illl
+                                Size: rr6k
+            summary: Gets all the descriptions in the App
         post:
             tags:
                 - Description
@@ -182,7 +200,82 @@ paths:
             description: >-
                 Requires a product ID before creating a description for the product with material, color and
                 size as parameters.
-    '/descriptions/{DescriptionID}': {}
+    '/descriptions/{DescriptionID}':
+        get:
+            tags:
+                - Description
+            parameters:
+                -
+                    name: DescriptionID
+                    in: path
+                    required: true
+                    type: string
+            responses:
+                '200':
+                    description: Returns all the details of the description
+                    schema:
+                        $ref: '#/definitions/new-product-description'
+                    examples:
+                        application/json:
+                            -
+                                ProductID: bn
+                                Material: propo
+                                Color: t
+                                Size: m
+                '404':
+                    description: Given description could not be found
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Gets the specified description
+        put:
+            tags:
+                - Description
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/update-product-description'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Returns 201 upon successful modification
+                    schema:
+                        $ref: '#/definitions/update-product-description'
+                    examples:
+                        application/json:
+                            -
+                                Material: ''
+                                Color: ''
+                                Size: of
+                '400':
+                    description: Description is missing all parameters or the inserted parameters are the same.
+                    schema:
+                        $ref: '#/definitions/Error'
+                '404':
+                    description: Description with the specific ID was not found
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Modifies the given description
+        delete:
+            tags:
+                - Description
+            responses:
+                '204':
+                    description: The given description has been successfully deleted
+                    schema:
+                        $ref: '#/definitions/Delete-description'
+                '404':
+                    description: Specified description was not found
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Deletes specific description
+        parameters:
+            -
+                name: DescriptionID
+                in: path
+                required: true
+                type: string
     /categorys:
         get:
             tags:
@@ -313,6 +406,101 @@ paths:
                 in: path
                 required: true
                 type: string
+    /baskets:
+        get:
+            tags:
+                - Basket
+            responses:
+                '200':
+                    description: Renurns a list of baskets
+                    schema:
+                        type: array
+                        items:
+                            type: string
+            summary: Get all baskets
+            description: Returns all baskets in APP
+    /users:
+        get:
+            tags:
+                - Users
+            responses:
+                '200':
+                    description: Returns a list of existing Users
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            -
+                                UserID: jkdalskjfkas
+                                UserName: Peeter
+                                IsAdmin: false
+                            -
+                                UserID: lkfdölölfds
+                                UserName: Mati
+                                IsAdmin: false
+                            -
+                                UserID: ruökfldjösa
+                                UserName: kati
+                                IsAdmin: true
+            summary: 'Returns a list of all users, with limited details'
+            description: 'Returns a list of all users, with limited details'
+    '/users/{UserID}':
+        get:
+            tags:
+                - Users
+            responses:
+                '200':
+                    description: Returns all details of the given User
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            UserID: jfölkdsajfaöi
+                            FirstName: kati
+                            LastName: Karu
+                            Email: kati.karu@gmail.com
+                            PasswordHASH: jdlsahfleaehflakshfalkjhfluewauhfe
+                            RegistrationDate: 12.12.2025
+                            LastLogin: ' 13.12.2025'
+                            IsAdmin: false
+                            OrderID: []
+                '404':
+                    description: Retrun error when user is not found
+                    schema:
+                        $ref: '#/definitions/Error'
+                    examples:
+                        application/json:
+                            -
+                                error: User not found
+            operationId: UserID
+            summary: Get all details of existing USer
+            description: 'Will return all details of a given User, based on UserID given'
+        parameters:
+            -
+                name: UserID
+                description: ID of user
+                in: path
+                required: true
+                type: string
+    /orders:
+        post:
+            tags:
+                - Order
+            responses:
+                '201':
+                    description: Order has been successfully created
+                    schema:
+                        $ref: '#/definitions/Error'
+                '400':
+                    description: Order is missing parameters
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Create a new Order into the app
+    '/orders/{OrderID}': {}
 definitions:
     Error:
         title: Root Type for Error
@@ -399,3 +587,67 @@ definitions:
                 type: string
         example:
             ProductID: 019adf6b-d945-7ac1-bf4f-280c7c4236e8
+    update-product-description:
+        description: ''
+        required:
+            - Material
+            - Color
+            - Size
+        type: object
+        properties:
+            Material:
+                description: ''
+                type: string
+            Color:
+                description: ''
+                type: string
+            Size:
+                description: ''
+                type: string
+        example:
+            Material: UpdatedMaterialName
+            Color: UpdatedColor
+            Size: UpdatedSize
+    Delete-description:
+        title: Root Type for Delete-description
+        description: ''
+        type: object
+        properties:
+            DescriptionID:
+                type: string
+        example:
+            DescriptionID: 019b0903-25bd-76c2-a06a-d37e6ade8d44
+    New-User:
+        title: Root Type for New-User
+        description: Contains user full details
+        type: object
+        properties:
+            UserID:
+                type: string
+            FirstName:
+                type: string
+            LastName:
+                type: string
+            Email:
+                type: string
+            PasswordHASH:
+                type: string
+            RegistrationDate:
+                type: string
+            LastLogin:
+                type: string
+            IsAdmin:
+                type: boolean
+            OrderID:
+                type: array
+                items: {}
+        example:
+            UserID: jfölkdsajfaöi
+            FirstName: kati
+            LastName: Karu
+            Email: kati.karu@gmail.com
+            PasswordHASH: jdlsahfleaehflakshfalkjhfluewauhfe
+            RegistrationDate: 12.12.2025
+            LastLogin: ' 13.12.2025'
+            IsAdmin: false
+            OrderID: []

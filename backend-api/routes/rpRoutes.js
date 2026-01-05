@@ -1,5 +1,6 @@
 const ProductsController = require("../controllers/ProductsController");
 const CategoryController = require("../controllers/CategoryController");
+const UserController = require("../controllers/UserContoller");
 
 module.exports = (app) => {
     app.route("/products")
