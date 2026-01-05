@@ -545,6 +545,24 @@ paths:
                                 error: User not found
             summary: Modifies given User instance
             description: Changes the deatails of a given User instance if parametres have been inserted
+        delete:
+            tags:
+                - Users
+            responses:
+                '204':
+                    description: The given User instance has been successfully deleted
+                    schema:
+                        $ref: '#/definitions/Delete-User'
+                '400':
+                    description: Return 400 when UserID is missing
+                    schema:
+                        $ref: '#/definitions/Error'
+                '404':
+                    description: Returns 404 when a User with given ID does not exists
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Deletes the User instance
+            description: Takes a User Id as an argument and deletes the given User instance from the database
         parameters:
             -
                 name: UserID
@@ -717,3 +735,12 @@ definitions:
             LastLogin: ' 13.12.2025'
             IsAdmin: false
             OrderID: []
+    Delete-User:
+        title: Root Type for Delete-User
+        description: ''
+        type: object
+        properties:
+            UserID:
+                type: string
+        example:
+            UserID: 019adf6b-d945-7ac1-bf4f-280c7c4236e8

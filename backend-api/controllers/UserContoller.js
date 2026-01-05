@@ -54,3 +54,12 @@ exports.updateUserByID = async (req, res) => {
     return res.location(`${Utilities.getBaseUrl(req)}/users/${userToBeModified.UserID}`)
     .sendStatus(201).send(userToBeModified);
 }
+
+exports.deleteUserByID = async (req, res) => {
+    const userToBeDeleted = await db.users.findByPk(req.params.UserID);
+    if (!userToBeDeleted) {
+        return res.status(404).send({error: "User not found."});
+    }
+    await userToBeDeleted.destroy();
+    return res.sendStatus(204).send({error: "No Content"});
+}
