@@ -20,6 +20,17 @@ const routes: Array<RouteRecordRaw> = [
     path: '/products',
     name: 'products',
     component: () => import('../views/ProductsView.vue')
+  },
+  {
+    path: '/products/:itemID',
+    name: 'singleProduct',
+    component: () => import('../views/SingleProductView.vue'),
+    props: route => {return{seekID: String(route.params.itemID)}}
+  },
+  {
+    path: '/newProduct',
+    name: 'newProduct',
+    component: () => import('../views/CreateProductView.vue')
   }
 ];
 
