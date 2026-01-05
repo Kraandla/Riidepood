@@ -5,7 +5,7 @@ const UUID = require('../node_modules/uuidv7');
 exports.getAll = async (req, res) => {
     const AllUsers = await db.users.findAll();
     console.log('get all users' + AllUsers);
-    res.status(200).send(AllUsers.map(({UserID, Username, Email}) => {return {UserID, Username, Email}}));
+    res.status(200).send(AllUsers.map(({UserID, First_Name, Last_Name, Email}) => {return {UserID, First_Name, Last_Name, Email}}));
 
 
 }
