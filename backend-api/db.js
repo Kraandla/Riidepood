@@ -26,13 +26,15 @@ db.sequelize = sequelize;
 db.products = require('./models/Product.js')(sequelize, DataTypes, db.descriptions);
 db.descriptions = require('./models/Description.js')(sequelize, DataTypes);
 
-db.orders = require('./models/Order.js')(sequelize, DataTypes);
+db.orders = require('./models/Order.js')(sequelize, DataTypes, db.products);
+// db.orderedProducts = require("./models/OrderedProducts.js")(sequelize, DataTypes, db.products, db.orders)
 
 db.products.belongsTo(db.descriptions);
 db.descriptions.hasOne(db.products);
 
-db.products.belongsToMany(db.orders, {through: 'OrderProducts'});
-db.orders.belongsToMany(db.products, {through: 'OrderProducts'});
+
+db.products.belongsToMany(db.orders, {through: 'OrderedProducts'});
+db.orders.belongsToMany(db.products, {through: 'OrderedProducts'});
 
 const sync = (async () => {
     await sequelize.sync({alter: true});

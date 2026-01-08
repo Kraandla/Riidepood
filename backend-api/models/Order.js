@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.TINYINT(1),
                 allowNull: false,
             },
-        })
+        });
     console.log(Order === sequelize.models.Order);
     return Order;
 }

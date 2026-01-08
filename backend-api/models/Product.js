@@ -18,10 +18,10 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: true,
             },
-            Amount: {
-                type: DataTypes.BIGINT,
-                allowNull: false,
-            }
+            // Amount: {
+            //     type: DataTypes.BIGINT,
+            //     allowNull: false,
+            // }
     })
     console.log(Product === sequelize.models.Product);
     return Product;
