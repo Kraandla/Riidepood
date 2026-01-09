@@ -608,7 +608,28 @@ paths:
                     schema:
                         $ref: '#/definitions/Error'
             summary: Create a new Order into the app
-    '/orders/{OrderID}': {}
+    '/orders/{OrderID}':
+        get:
+            tags:
+                - Order
+            parameters:
+                -
+                    name: OrderID
+                    in: path
+                    required: true
+                    type: string
+            responses:
+                '200':
+                    description: Returns all details of an Order
+                '400':
+                    description: Returns error if ID is not given
+                    schema:
+                        $ref: '#/definitions/Error'
+                '404':
+                    description: Returns status code 404 when no Order with the given detail has been found
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Gets all order details based on the ID
 definitions:
     Error:
         title: Root Type for Error
@@ -782,3 +803,6 @@ definitions:
                 - id1
                 - id2
                 - id3
+    order:
+        description: ''
+        type: object

@@ -25,4 +25,7 @@ module.exports = (app) => {
     app.route("/orders")
     .get(OrdersController.getAll)
     .post(OrdersController.create);
+
+    app.route("/orders/:OrderID")
+    .get(OrdersController.getById);
 }
