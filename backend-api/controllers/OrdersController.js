@@ -2,6 +2,7 @@ const {db} = require('../db');
 const Utilities = require('./Utilities');
 const UUID = require('uuidv7');
 const { Model } = require('sequelize');
+const Order = require('../models/Order');
 
 exports.create =
 async (req, res) => {
@@ -24,5 +25,24 @@ async (req, res) => {
     return res
     .location
     (`${Utilities.getBaseUrl(req)}/orders/${createdOrder.OrderID}`)
-    .sendStatus(201)
+    .sendStatus(201);
 }
+
+exports.getAll =
+async (req, res) => {
+    const AllOrders = await db.orders.findAll();
+
+    console.log("getAll: " + AllOrders);
+    res
+    .status(200)
+    .send(AllOrders.map(({OrderID, Status}) => {return{OrderID, Status}})); 
+}
+// exports.getById =
+// async (req, res) => {
+//     if (
+//         !req.Body.OrderID
+//     ){
+//         return res.status(400).send({error: 'Missing OrderId.'});
+//     }
+
+// }
