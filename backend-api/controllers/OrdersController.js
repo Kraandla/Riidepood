@@ -47,6 +47,15 @@ async (req, res) => {
     return res.status(200).send(order);
 }
 
+exports.deleteById =
+async (req, res) => {
+    const orderToBeDeleted = await getOrder(req, res);
+    if (!orderToBeDeleted) {return res.status(404).send({error: 'Order not found'});}
+
+    await orderToBeDeleted.destroy();
+    res.status(204).send({error: "No Content"});
+}
+
 const getOrder =
 async (req, res) => {    
     const id = req.params.OrderID;

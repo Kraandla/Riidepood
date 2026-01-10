@@ -27,5 +27,6 @@ module.exports = (app) => {
     .post(OrdersController.create);
 
     app.route("/orders/:OrderID")
+    .delete(OrdersController.deleteById)
     .get(OrdersController.getById);
 }
