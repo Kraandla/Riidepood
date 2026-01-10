@@ -588,6 +588,7 @@ paths:
                     description: Action has successfully returned all the orders
                     schema:
                         $ref: '#/definitions/Error'
+            summary: Get all orders in the app
         post:
             tags:
                 - Order
@@ -621,6 +622,8 @@ paths:
             responses:
                 '200':
                     description: Returns all details of an Order
+                    schema:
+                        $ref: '#/definitions/order'
                 '400':
                     description: Returns error if ID is not given
                     schema:
@@ -630,6 +633,56 @@ paths:
                     schema:
                         $ref: '#/definitions/Error'
             summary: Gets all order details based on the ID
+        put:
+            tags:
+                - Order
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/update-order'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Order has been successfully updated and returned
+                    schema:
+                        $ref: '#/definitions/order'
+                '400':
+                    description: New parameters are missing
+                    schema:
+                        $ref: '#/definitions/Error'
+                '404':
+                    description: The specified order was not found
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Modifies a specified order
+        delete:
+            tags:
+                - Order
+            parameters:
+                -
+                    name: OrderID
+                    in: path
+                    required: true
+            responses:
+                '204':
+                    description: Order has been successfully deleted
+                    schema:
+                        $ref: '#/definitions/Error'
+                '400':
+                    description: Action is missing order id. Returns error message
+                    schema:
+                        $ref: '#/definitions/Error'
+                '404':
+                    description: Order with the given id does not exist
+                    schema:
+                        $ref: '#/definitions/Error'
+        parameters:
+            -
+                name: OrderID
+                in: path
+                required: true
 definitions:
     Error:
         title: Root Type for Error
@@ -806,3 +859,26 @@ definitions:
     order:
         description: ''
         type: object
+        example:
+            OrderID: 019b9eb4-debc-7ddf-9e4b-fd5392e9b422
+            Status: 0
+            createdAt: '2026-01-08T17:43:32.000Z'
+            updatedAt: '2026-01-08T17:43:32.000Z'
+            Products:
+                -
+                    ProductID: 019b9ea1-641e-7a3c-bb3c-0ef2d09b557f
+                    Name: NewProductName
+                    Price: 50
+                    Image: NewProductImage
+                    createdAt: '2026-01-08T17:22:15.000Z'
+                    updatedAt: '2026-01-08T17:22:15.000Z'
+                    OrderedProducts:
+                        createdAt: '2026-01-08T17:43:32.000Z'
+                        updatedAt: '2026-01-08T17:43:32.000Z'
+                        ProductProductID: 019b9ea1-641e-7a3c-bb3c-0ef2d09b557f
+                        OrderOrderID: 019b9eb4-debc-7ddf-9e4b-fd5392e9b422
+    update-order:
+        description: ''
+        type: object
+        example:
+            Status: 0
