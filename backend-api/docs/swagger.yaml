@@ -406,6 +406,283 @@ paths:
                 in: path
                 required: true
                 type: string
+    /baskets:
+        get:
+            tags:
+                - Basket
+            responses:
+                '200':
+                    description: Renurns a list of baskets
+                    schema:
+                        type: array
+                        items:
+                            type: string
+            summary: Get all baskets
+            description: Returns all baskets in APP
+    /users:
+        get:
+            tags:
+                - Users
+            responses:
+                '200':
+                    description: Returns a list of existing Users
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            -
+                                UserID: jkdalskjfkas
+                                UserName: Peeter
+                                IsAdmin: false
+                            -
+                                UserID: lkfdölölfds
+                                UserName: Mati
+                                IsAdmin: false
+                            -
+                                UserID: ruökfldjösa
+                                UserName: kati
+                                IsAdmin: true
+            summary: 'Returns a list of all users, with limited details'
+            description: 'Returns a list of all users, with limited details'
+        post:
+            tags:
+                - Users
+            parameters:
+                -
+                    name: body
+                    description: The <user> that is to be created
+                    schema:
+                        $ref: '#/definitions/New-User'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Send 201 when <user> is successfullt added to the database
+                    schema:
+                        $ref: '#/definitions/New-User'
+                '400':
+                    description: Send 400 when a new <user> has invalid inputs
+                    schema:
+                        $ref: '#/definitions/Error'
+                '404':
+                    description: Send 404 when paramets are invalid or missing
+                    schema:
+                        $ref: '#/definitions/Error'
+                '409':
+                    description: Returns 409 if email is taken
+                    schema:
+                        $ref: '#/definitions/Error'
+                    examples:
+                        application/json: |-
+                            [
+                              { message: 'Email already exists' }
+                            ]
+            summary: Create a nwe User into the app
+            description: 'Creates a new User instance with its required details, for futher usage'
+    '/users/{UserID}':
+        get:
+            tags:
+                - Users
+            responses:
+                '200':
+                    description: Returns all details of the given User
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            UserID: jfölkdsajfaöi
+                            FirstName: kati
+                            LastName: Karu
+                            Email: kati.karu@gmail.com
+                            PasswordHASH: jdlsahfleaehflakshfalkjhfluewauhfe
+                            RegistrationDate: 12.12.2025
+                            LastLogin: ' 13.12.2025'
+                            IsAdmin: false
+                            OrderID: []
+                '404':
+                    description: Retrun error when user is not found
+                    schema:
+                        $ref: '#/definitions/Error'
+                    examples:
+                        application/json:
+                            -
+                                error: User not found
+            operationId: UserID
+            summary: Get all details of existing USer
+            description: 'Will return all details of a given User, based on UserID given'
+        put:
+            tags:
+                - Users
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/New-User'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Returns 201 upon successful modification of User
+                    schema:
+                        $ref: '#/definitions/New-User'
+                    examples:
+                        application/json:
+                            First_Name: Malle
+                            Last_Name: Rebane
+                            Email: malle@gmail.com
+                            Password: '12343'
+                            ConfirmPassword: '12343'
+                '400':
+                    description: Returns 400 when given <User> has not been given new parameters.
+                    schema:
+                        $ref: '#/definitions/Error'
+                    examples:
+                        application/json:
+                            -
+                                error: The given parameters are missing or invaild
+                '404':
+                    description: Given <User> instance has not been found
+                    schema:
+                        $ref: '#/definitions/Error'
+                    examples:
+                        application/json:
+                            -
+                                error: User not found
+            summary: Modifies given User instance
+            description: Changes the deatails of a given User instance if parametres have been inserted
+        delete:
+            tags:
+                - Users
+            responses:
+                '204':
+                    description: The given User instance has been successfully deleted
+                    schema:
+                        $ref: '#/definitions/Delete-User'
+                '400':
+                    description: Return 400 when UserID is missing
+                    schema:
+                        $ref: '#/definitions/Error'
+                '404':
+                    description: Returns 404 when a User with given ID does not exists
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Deletes the User instance
+            description: Takes a User Id as an argument and deletes the given User instance from the database
+        parameters:
+            -
+                name: UserID
+                description: ID of user
+                in: path
+                required: true
+                type: string
+    /orders:
+        get:
+            tags:
+                - Order
+            responses:
+                '200':
+                    description: Action has successfully returned all the orders
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Get all orders in the app
+        post:
+            tags:
+                - Order
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/new-Order'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Order has been successfully created
+                    schema:
+                        $ref: '#/definitions/Error'
+                '400':
+                    description: Order is missing parameters
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Create a new Order into the app
+    '/orders/{OrderID}':
+        get:
+            tags:
+                - Order
+            parameters:
+                -
+                    name: OrderID
+                    in: path
+                    required: true
+                    type: string
+            responses:
+                '200':
+                    description: Returns all details of an Order
+                    schema:
+                        $ref: '#/definitions/order'
+                '400':
+                    description: Returns error if ID is not given
+                    schema:
+                        $ref: '#/definitions/Error'
+                '404':
+                    description: Returns status code 404 when no Order with the given detail has been found
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Gets all order details based on the ID
+        put:
+            tags:
+                - Order
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/update-order'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Order has been successfully updated and returned
+                    schema:
+                        $ref: '#/definitions/order'
+                '400':
+                    description: New parameters are missing
+                    schema:
+                        $ref: '#/definitions/Error'
+                '404':
+                    description: The specified order was not found
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Modifies a specified order
+        delete:
+            tags:
+                - Order
+            parameters:
+                -
+                    name: OrderID
+                    in: path
+                    required: true
+            responses:
+                '204':
+                    description: Order has been successfully deleted
+                    schema:
+                        $ref: '#/definitions/Error'
+                '400':
+                    description: Action is missing order id. Returns error message
+                    schema:
+                        $ref: '#/definitions/Error'
+                '404':
+                    description: Order with the given id does not exist
+                    schema:
+                        $ref: '#/definitions/Error'
+        parameters:
+            -
+                name: OrderID
+                in: path
+                required: true
 definitions:
     Error:
         title: Root Type for Error
@@ -522,60 +799,3 @@ definitions:
                 type: string
         example:
             DescriptionID: 019b0903-25bd-76c2-a06a-d37e6ade8d44
-    New-User:
-        title: Root Type for New-User
-        description: Contains user full details
-        type: object
-        properties:
-            UserID:
-                type: string
-            FirstName:
-                type: string
-            LastName:
-                type: string
-            Email:
-                type: string
-            PasswordHASH:
-                type: string
-            RegistrationDate:
-                type: string
-            LastLogin:
-                type: string
-            IsAdmin:
-                type: boolean
-            OrderID:
-                type: array
-                items: {}
-        example:
-            UserID: jfölkdsajfaöi
-            FirstName: kati
-            LastName: Karu
-            Email: kati.karu@gmail.com
-            PasswordHASH: jdlsahfleaehflakshfalkjhfluewauhfe
-            RegistrationDate: 12.12.2025
-            LastLogin: ' 13.12.2025'
-            IsAdmin: false
-            OrderID: []
-    Delete-User:
-        title: Root Type for Delete-User
-        description: ''
-        type: object
-        properties:
-            UserID:
-                type: string
-        example:
-            UserID: 019adf6b-d945-7ac1-bf4f-280c7c4236e8
-    new-Order:
-        title: Root Type for new-Order
-        description: ''
-        type: object
-        properties:
-            Products:
-                type: array
-                items:
-                    type: string
-        example:
-            Products:
-                - id1
-                - id2
-                - id3

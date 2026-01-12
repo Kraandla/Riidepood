@@ -108,6 +108,15 @@ async (req, res) => {
     res.status(204).send({error: "No Content"});
 }
 
+exports.getAll =
+async (req, res) => {
+    const AllDescriptions = await db.descriptions.findAll();
+    console.log("getAll: " + AllDescriptions);
+    res
+    .status(200)
+    .send(AllDescriptions.map(({DescriptionID, Material, Color, Size}) => {return{DescriptionID, Material, Color, Size}}));
+}
+
 getDescription =
 async (req, res) => {
     const idNumber = req.params.DescriptionID

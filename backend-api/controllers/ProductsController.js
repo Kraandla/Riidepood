@@ -117,6 +117,11 @@ async (req, res) => {
     //     idNumber = req.body.ProductID
     // } else {
     //     res.status(400).send({error: "Request could not be read properly."});
+    
+
+
+    // if(NaN(idNumber)) {
+    //     res.status(400).send({error: `Entered ID is not valid. ID number: ${idnumber}`});
     //     return null;
     // }
 

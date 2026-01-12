@@ -29,6 +29,15 @@ db.users = require('./models/User.js')(sequelize, DataTypes);
 
 db.products.hasOne(db.categorys);
 db.categorys.hasMany(db.products);
+db.orders = require('./models/Order.js')(sequelize, DataTypes, db.products);
+// db.orderedProducts = require("./models/OrderedProducts.js")(sequelize, DataTypes, db.products, db.orders)
+
+db.products.belongsTo(db.descriptions);
+db.descriptions.hasOne(db.products);
+
+
+db.products.belongsToMany(db.orders, {through: 'OrderedProducts'});
+db.orders.belongsToMany(db.products, {through: 'OrderedProducts'});
 
 const sync = (async () => {
     await sequelize.sync({alter: true});
