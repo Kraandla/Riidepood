@@ -5,13 +5,13 @@ const UUID = require('../node_modules/uuidv7');
 exports.getAll = async (req, res) => {
     const AllUsers = await db.users.findAll();
     console.log('get all users' + AllUsers);
-    res.status(200).send(AllUsers.map(({UserID, First_Name, Last_Name, Email}) => {return {UserID, First_Name, Last_Name, Email}}));
+    res.status(200).send(AllUsers.map(({UserID, FirstName, LastName, Email}) => {return {UserID, FirstName, LastName, Email}}));
 
 
 }
 
 exports.createUser = async (req, res) => {
-    if (!req.body.First_Name || !req.body.Last_Name || !req.body.Email || !req.body.Password) {
+    if (!req.body.FirstName || !req.body.LastName || !req.body.Email || !req.body.Password) {
         return res.status(400).send({error: "Missing some parameters."});
     }
     if (await db.users.findOne({where: {Email: req.body.Email}})) {
@@ -20,8 +20,8 @@ exports.createUser = async (req, res) => {
 
     const newUser ={
         UserID: UUID.uuidv7(),
-        First_Name: req.body.First_Name,
-        Last_Name: req.body.Last_Name,
+        FirstName: req.body.FirstName,
+        LastName: req.body.LastName,
         Email: req.body.Email,
         Password: req.body.Password,
     }
@@ -46,7 +46,7 @@ exports.updateUserByID = async (req, res) => {
     if (!userToBeModified) {
         return res.status(404).send({error: "User not found."});
     }
-      if (!req.body.First_Name || !req.body.Last_Name || !req.body.Email || !req.body.Password) {
+      if (!req.body.FirstName || !req.body.LastName || !req.body.Email || !req.body.Password) {
         return res.status(400).send({error: "Missing some parameters."});
     }
     if (req.body.Email !== userToBeModified.Email) {
@@ -54,8 +54,8 @@ exports.updateUserByID = async (req, res) => {
             return res.status(409).send({error: "Email already in use."});
         }
     }
-    userToBeModified.First_Name = req.body.First_Name;
-    userToBeModified.Last_Name = req.body.Last_Name;
+    userToBeModified.FirstName = req.body.FirstName;
+    userToBeModified.LastName = req.body.LastName;
     userToBeModified.Email = req.body.Email;
     userToBeModified.Password = req.body.Password;
     await userToBeModified.save();

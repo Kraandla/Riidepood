@@ -47,8 +47,7 @@ exports.updateCategoryByID = async (req, res) => {
   if (!categoryToBeModified) {
     return res.status(404).send({ error: "Category not found" });
   }
-  if ((!req.body.Name && !req.body.Image)||
-      (req.body.Name === categoryToBeModified.Name || req.body.Image === categoryToBeModified.Image)) {
+  if (!req.body.Name && !req.body.Image) {
     return res.status(400).send({ error: "No new parameters given or they are invalid." });
   }
   if(!req.body.Name) {
