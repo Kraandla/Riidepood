@@ -64,6 +64,7 @@
 </script>
 
 <template>
+
 <div v-if="editMode">
     <h1>Create a New Item</h1>
         <div>Name: <input v-model="newProduct.Name" type="text"> </input></div>
@@ -72,8 +73,8 @@
         <button @click="createProduct">Create</button>
         <button @click="$router.push({ name: 'products' })">Back</button>
  </div>
+
  <div v-else>
-    
     <table class="table table-striped">
         <tr>
             <td>Product ID</td>
