@@ -1,16 +1,22 @@
 const ProductsController = require("../controllers/ProductsController");
+<<<<<<< HEAD
 const CategoryController = require("../controllers/CategoryController");
 const UserController = require("../controllers/UserContoller");
+=======
+const DescriptionsController = require("../controllers/DescriptionsController")
+>>>>>>> Frontend-init
 
 module.exports = (app) => {
     app.route("/products")
     .get(ProductsController.getAll)
     .post(ProductsController.create);
+
     app.route("/products/:ProductID")
     .get(ProductsController.getByID)
     .delete(ProductsController.deleteById)
     .put(ProductsController.modifyById);
 
+<<<<<<< HEAD
     app.route('/categorys')
     .post(CategoryController.create)
     .get(CategoryController.getAll);
@@ -28,4 +34,14 @@ module.exports = (app) => {
     .get(UserController.getUserByID)
     .put(UserController.updateUserByID)
     .delete(UserController.deleteUserByID);
+=======
+
+    app.route("/descriptions")
+    .post(DescriptionsController.create);
+
+    app.route("/descriptions/:DescriptionID")
+    .get(DescriptionsController.getByID)
+    .put(DescriptionsController.modifyById)
+    .delete(DescriptionsController.deleteById);
+>>>>>>> Frontend-init
 }

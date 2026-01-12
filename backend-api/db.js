@@ -23,12 +23,20 @@ async() => {
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
+<<<<<<< HEAD
 db.products = require('./models/Product.js')(sequelize, DataTypes, db.categorys);
 db.categorys = require('./models/Category.js')(sequelize, DataTypes);
 db.users = require('./models/User.js')(sequelize, DataTypes);
 
 db.products.hasOne(db.categorys);
 db.categorys.hasMany(db.products);
+=======
+db.products = require('./models/Product.js')(sequelize, DataTypes, db.descriptions);
+db.descriptions = require('./models/Description.js')(sequelize, DataTypes);
+
+db.products.belongsTo(db.descriptions);
+db.descriptions.hasOne(db.products);
+>>>>>>> Frontend-init
 
 const sync = (async () => {
     await sequelize.sync({alter: true});

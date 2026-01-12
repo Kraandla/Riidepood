@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "concurrently \"cd backend-api && nodemon ."
+    "start": "concurrently \"cd backend-api && npm run nodemon\" \"cd frontend-site\\riidepood-frontend && npm run serve\""
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Kraandla/Riidepood#readme",
   "dependencies": {
-    "concurrently": "^9.2.1"
+    "concurrently": "^9.2.1",
+    "vue-router": "^4.0.13"
   }
 }

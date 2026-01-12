@@ -152,6 +152,7 @@ paths:
                 required: true
                 type: string
     /descriptions:
+<<<<<<< HEAD
         get:
             tags:
                 - Description
@@ -170,6 +171,8 @@ paths:
                                 Color: illl
                                 Size: rr6k
             summary: Gets all the descriptions in the App
+=======
+>>>>>>> Frontend-init
         post:
             tags:
                 - Description
@@ -406,6 +409,7 @@ paths:
                 in: path
                 required: true
                 type: string
+<<<<<<< HEAD
     /baskets:
         get:
             tags:
@@ -601,6 +605,8 @@ paths:
                         $ref: '#/definitions/Error'
             summary: Create a new Order into the app
     '/orders/{OrderID}': {}
+=======
+>>>>>>> Frontend-init
 definitions:
     Error:
         title: Root Type for Error
@@ -717,6 +723,7 @@ definitions:
                 type: string
         example:
             DescriptionID: 019b0903-25bd-76c2-a06a-d37e6ade8d44
+<<<<<<< HEAD
     New-User:
         title: Root Type for New-User
         description: Contains user full details
@@ -774,3 +781,5 @@ definitions:
                 - id1
                 - id2
                 - id3
+=======
+>>>>>>> Frontend-init
