@@ -26,4 +26,5 @@ require("./routes/rpRoutes")(app);
 app.listen(port, async () => {
     if (process.env.SYNC === 'true') {await sync();}
     console.log(`API on aadressil: http://${host}:${port}`);
+    console.log(`Docs on aadressil: http://${host}:${port}/docs`);
 })

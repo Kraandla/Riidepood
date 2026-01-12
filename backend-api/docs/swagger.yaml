@@ -462,6 +462,20 @@ paths:
                     description: Send 201 when <user> is successfullt added to the database
                     schema:
                         $ref: '#/definitions/New-User'
+                    examples:
+                        application/json:
+                            -
+                                UserID: g
+                                FirstName: ''
+                                LastName: ''
+                                Email: lfh1
+                                PasswordHASH: 5wq
+                                RegistrationDate: px
+                                LastLogin: b
+                                IsAdmin: true
+                                OrderID:
+                                    - {}
+                                    - {}
                 '400':
                     description: Send 400 when a new <user> has invalid inputs
                     schema:
@@ -603,7 +617,13 @@ paths:
                 '201':
                     description: Order has been successfully created
                     schema:
-                        $ref: '#/definitions/Error'
+                        $ref: '#/definitions/new-Order'
+                    examples:
+                        application/json:
+                            -
+                                Products:
+                                    - ''
+                                    - p0
                 '400':
                     description: Order is missing parameters
                     schema:
@@ -648,6 +668,9 @@ paths:
                     description: Order has been successfully updated and returned
                     schema:
                         $ref: '#/definitions/order'
+                    examples:
+                        application/json:
+                            Status: 0
                 '400':
                     description: New parameters are missing
                     schema:
@@ -799,3 +822,86 @@ definitions:
                 type: string
         example:
             DescriptionID: 019b0903-25bd-76c2-a06a-d37e6ade8d44
+    New-User:
+        title: Root Type for New-User
+        description: Contains user full details
+        type: object
+        properties:
+            UserID:
+                type: string
+            FirstName:
+                type: string
+            LastName:
+                type: string
+            Email:
+                type: string
+            PasswordHASH:
+                type: string
+            RegistrationDate:
+                type: string
+            LastLogin:
+                type: string
+            IsAdmin:
+                type: boolean
+            OrderID:
+                type: array
+                items: {}
+        example:
+            UserID: jfölkdsajfaöi
+            FirstName: kati
+            LastName: Karu
+            Email: kati.karu@gmail.com
+            PasswordHASH: jdlsahfleaehflakshfalkjhfluewauhfe
+            RegistrationDate: 12.12.2025
+            LastLogin: ' 13.12.2025'
+            IsAdmin: false
+            OrderID: []
+    Delete-User:
+        title: Root Type for Delete-User
+        description: ''
+        type: object
+        properties:
+            UserID:
+                type: string
+        example:
+            UserID: 019adf6b-d945-7ac1-bf4f-280c7c4236e8
+    new-Order:
+        title: Root Type for new-Order
+        description: ''
+        type: object
+        properties:
+            Products:
+                type: array
+                items:
+                    type: string
+        example:
+            Products:
+                - id1
+                - id2
+                - id3
+    order:
+        description: ''
+        type: object
+        example:
+            OrderID: 019b9eb4-debc-7ddf-9e4b-fd5392e9b422
+            Status: 0
+            createdAt: '2026-01-08T17:43:32.000Z'
+            updatedAt: '2026-01-08T17:43:32.000Z'
+            Products:
+                -
+                    ProductID: 019b9ea1-641e-7a3c-bb3c-0ef2d09b557f
+                    Name: NewProductName
+                    Price: 50
+                    Image: NewProductImage
+                    createdAt: '2026-01-08T17:22:15.000Z'
+                    updatedAt: '2026-01-08T17:22:15.000Z'
+                    OrderedProducts:
+                        createdAt: '2026-01-08T17:43:32.000Z'
+                        updatedAt: '2026-01-08T17:43:32.000Z'
+                        ProductProductID: 019b9ea1-641e-7a3c-bb3c-0ef2d09b557f
+                        OrderOrderID: 019b9eb4-debc-7ddf-9e4b-fd5392e9b422
+    update-order:
+        description: ''
+        type: object
+        example:
+            Status: 0
