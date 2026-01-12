@@ -5,11 +5,11 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       defaultValue: DataTypes.UUID,
     },
-    First_Name: {
+    FirstName: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    Last_Name: {
+    LastName: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -22,16 +22,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    Registration_date: {
+    RegistrationDate: {
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
-    Last_login: {
+    LastLogin: {
       type: DataTypes.DATE,
       allowNull: true,
     },
-    Is_Admin: {
+    IsAdmin: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
