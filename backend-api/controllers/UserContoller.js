@@ -1,6 +1,8 @@
 const {db} = require('../db');
 const Utilities = require('./Utilities');
 const UUID = require('../node_modules/uuidv7');
+const bcrypt = require('bcrypt');
+
 
 exports.getAll = async (req, res) => {
     const AllUsers = await db.users.findAll();
@@ -17,13 +19,14 @@ exports.createUser = async (req, res) => {
     if (await db.users.findOne({where: {Email: req.body.Email}})) {
         return res.status(409).send({error: "Email already in use."});
     }
+    const hashedPassword = await bcrypt.hash(req.body.Password, 10);
 
     const newUser ={
         UserID: UUID.uuidv7(),
         FirstName: req.body.FirstName,
         LastName: req.body.LastName,
         Email: req.body.Email,
-        Password: req.body.Password,
+        Password: hashedPassword,
     }
 
     const createdUser = await db.users.create(newUser);

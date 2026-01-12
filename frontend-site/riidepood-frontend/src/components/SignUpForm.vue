@@ -69,7 +69,6 @@ watch(password, (newVal) => {
 })
 
 async function signUp() {
-    console.log("button is clicked")
     errorMessage.value = ''
     const response = await fetch(`http://localhost:8080/users/`,
         {
@@ -107,13 +106,13 @@ async function signUp() {
         <div>
             <label>Password: </label>
             <input :type="showPassword ? 'text' : 'password'" v-model="password"
-                @change="$emit('update:password', $event.target.value)" id="password" required=""/>
+                @change="$emit('update:password', $event.target.value)" id="password" required="" placeholder="Password"/>
         </div>
 
         <div>
             <label>Confirm Password: </label>
             <input :type="showPassword ? 'text' : 'password'" v-model="confirmPassword"
-                @change="$emit('update:confirmPassword', $event.target.value)" id="confirmPassword" required=""/>
+                @change="$emit('update:confirmPassword', $event.target.value)" id="confirmPassword" required="" placeholder="Confirm password"/>
         </div>
         <ul v-if="showRequirements" class="requirements">
             <li v-for="(requirement, key) in passwordRequirements" :key="key"
