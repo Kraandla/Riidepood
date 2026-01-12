@@ -8,16 +8,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-<<<<<<< HEAD
-  "description": "",
-  "dependencies": {
-    "vue": "^3.5.25"
-  }
-=======
   "dependencies": {
     "vue": "^3.5.25",
     "vue-router": "^4.0.13"
   },
   "description": ""
->>>>>>> Frontend-init
 }
