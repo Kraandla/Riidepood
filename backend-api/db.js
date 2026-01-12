@@ -25,6 +25,7 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.products = require('./models/Product.js')(sequelize, DataTypes, db.categorys);
 db.categorys = require('./models/Category.js')(sequelize, DataTypes);
+db.descriptions = require('./models/Description.js')(sequelize, DataTypes);
 db.users = require('./models/User.js')(sequelize, DataTypes);
 
 db.products.hasOne(db.categorys);
