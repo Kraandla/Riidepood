@@ -1,11 +1,12 @@
 <script>
+    import router from "../router/index"
     export default {
         data() {
             return {
                 newProduct: {
-                    Name: "",
-                    Price: 0,
-                    Image: "",
+                    Name: "dipdip",
+                    Price: 15,
+                    Image: "dipdip",
                 }
             };
         },
@@ -18,6 +19,7 @@
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify(this.newProduct)
                 });
+                router.go(-1)
             }
         },
     }
@@ -30,6 +32,6 @@
         <div>Name: <input v-model="newProduct.Name" type="text"> </input></div>
         <div>Price: <input v-model="newProduct.Price" type="number"></input></div>
         <div>Image: <input v-model="newProduct.Image" type="text"></input></div>
-        <button @click="createProduct, $router.go(-1)">Create</button>
+        <button @click="createProduct">Create</button>
  </div>
 </template>
