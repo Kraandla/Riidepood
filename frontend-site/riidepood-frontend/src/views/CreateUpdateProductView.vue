@@ -73,6 +73,7 @@
         <button @click="$router.push({ name: 'products' })">Back</button>
  </div>
  <div v-else>
+    
     <table class="table table-striped">
         <tr>
             <td>Product ID</td>
@@ -91,6 +92,7 @@
             <td>{{productToBeModified.Image}}</td>
         </tr>
     </table>
+
     <h1>Update Item</h1>
         <div>Name: <input v-model="modifiedData.Name" type="text"> </input></div>
         <div>Price: <input v-model="modifiedData.Price" type="number"></input></div>
