@@ -10,7 +10,6 @@
             allProducts: []
             }
         },
-
         async created() {
             this.allProducts = await (await fetch('http://localhost:8080/products')).json();
         }

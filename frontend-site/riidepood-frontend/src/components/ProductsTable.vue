@@ -3,7 +3,7 @@
         name: "ProductsTable",
         props: {
             items: Array,
-        }
+        },
     }
 
 </script>
@@ -25,8 +25,15 @@
                                 {{ item.Name }}
                             </router-link>
                 </td>
+                <td>
+                    <button>
+                        <router-link :to="{ name: 'editProduct', params: { itemID: item.ProductID} }">
+                                Edit
+                            </router-link>
+                    </button>
+                </td>
             </tr>
         </tbody>
     </table>
-    <button><router-link to="/newProduct">Create new product</router-link></button>
+    <button><router-link :to="{ name: 'newProduct'}">Create new product</router-link></button>
 </template>

@@ -30,7 +30,13 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/newProduct',
     name: 'newProduct',
-    component: () => import('../views/CreateProductView.vue')
+    component: () => import('../views/CreateUpdateProductView.vue')
+  },
+  {
+    path: '/editProduct/:itemID',
+    name: 'editProduct',
+    component: () => import('../views/CreateUpdateProductView.vue'),
+    props: route => {return{seekID: String(route.params.itemID)}}
   }
 ];
 
