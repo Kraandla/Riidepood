@@ -7,6 +7,9 @@
                     Name: "",
                     Price: 0,
                     Image: "",
+                },
+                seekIdTransfer: {
+                    ProductID: this.seekID
                 }
             }
         },
@@ -33,13 +36,13 @@
                 this.$router.push({ name: 'products' });
             },
             async updateProduct(){
-                fetch(`http://localhost:8080/products/${this.seekID}`, {
+                await fetch(`http://localhost:8080/products/${this.seekID}`, {
                     method: 'PUT',
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify(this.newProductData)
                 });
                 this.$router.push({ name: 'products' });
-            }
+            },
         },
     }
 </script>

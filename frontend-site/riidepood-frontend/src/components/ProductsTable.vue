@@ -1,6 +1,10 @@
-<script> 
+<script>
+    import ProductDeleteButton from './ProductDeleteButton.vue'
     export default {
         name: "ProductsTable",
+        components: {
+            ProductDeleteButton
+        },
         props: {
             items: Array,
         },
@@ -30,6 +34,9 @@
                                 Edit
                             </router-link>
                     </button>
+                </td>
+                <td>
+                    <product-delete-button :seekID="item.ProductID" :items="items" />
                 </td>
             </tr>
         </tbody>
