@@ -1,49 +1,33 @@
 <script>
-    // import ProductDetailsTable from '../components/ProductDetailsTable';
+    import ProductDetailsTable from '../components/ProductDetailsTable.vue';
 
-    export default{
-        data(){
-            return{
+    export default {
+        components: {
+            ProductDetailsTable
+        },
+        data() {
+            return {
                 thisProduct: {
-                    ProductID: "",
+                    ProductID: this.seekID,
                     Name: "",
                     Price: 0,
                     Image: ""
                 }
             }
         },
-
         props: {
             seekID: {
                 type: String,
                 required: true
             }
         },
-
         async created() {
-            this.thisProduct = await (await fetch(`http://localhost:8080/products/${this.seekID}`)).json();
-        }
-
+        
+        this.thisProduct = await (await fetch(`http://localhost:8080/products/${this.seekID}`)).json();
+    }
     }
 </script>
 
 <template> 
-    <table class="table table-striped">
-            <tr>
-                <td>Product ID</td>
-                <td>{{thisProduct.ProductID}}</td>
-            </tr>
-            <tr>
-                <td>Product Name</td>
-                <td>{{thisProduct.Name}}</td>
-            </tr>
-            <tr>
-                <td>Product Price</td>
-                <td>{{thisProduct.Price}}</td>
-            </tr>
-            <tr>
-                <td>Product Image</td>
-                <td>{{thisProduct.Image}}</td>
-            </tr>
-    </table>
+    <ProductDetailsTable :thisProduct="thisProduct"/>
 </template>

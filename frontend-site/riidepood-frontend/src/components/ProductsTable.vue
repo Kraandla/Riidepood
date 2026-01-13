@@ -5,7 +5,6 @@
             items: Array,
         },
     }
-
 </script>
 
 <template> 
