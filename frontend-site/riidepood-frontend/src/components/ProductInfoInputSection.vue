@@ -8,9 +8,11 @@
                     Price: 0,
                     Image: "",
                 },
-                seekIdTransfer: {
-                    ProductID: this.seekID
-                }
+                schema:{
+                    Name: 'required|min:3|max:25',
+                    Price: 'required|min_value:0.10',
+                    Image: ''
+                },
             }
         },
         props: {
@@ -48,18 +50,84 @@
 </script>
 
 <template>
-    <div v-if="!editMode">
-        <div>Name: <input v-model="newProductData.Name" type="text"> </input></div>
-        <div>Price: <input v-model="newProductData.Price" type="number"></input></div>
-        <div>Image: <input v-model="newProductData.Image" type="text"></input></div>
-        <button @click="createProduct">Create</button>
-        <button @click="$router.push({ name: 'products' })">Back</button>
+<div v-if="!editMode">
+        <VeeForm :validation-schema="schema" @submit="createProduct">
+            <div>
+                Name:
+                <VeeField
+                name="Name"
+                as="input"
+                type="text"
+                v-model="newProductData.Name"
+                />
+            </div>
+            <ErrorMessage name="Name" />
+
+            <div>
+                Price:
+                <VeeField
+                name="Price"
+                as="input"
+                step="0.01"
+                type="number"
+                v-model="newProductData.Price"
+                />
+            </div>
+            <ErrorMessage name="Price" />
+
+            <div>
+                Image:
+                <VeeField
+                name="Image"
+                type="text"
+                as="input"
+                v-model="newProductData.Image"
+                />
+            </div>
+        <ErrorMessage name="Image"/>
+
+        <button type="submit">Create</button>
+        <button type="button" @click="$router.push({ name: 'products' })">Back</button>
+        </VeeForm>
     </div>
-    <div v-else="editMode">
-        <div>Name: <input v-model="newProductData.Name" type="text"> </input></div>
-        <div>Price: <input v-model="newProductData.Price" type="number"></input></div>
-        <div>Image: <input v-model="newProductData.Image" type="text"></input></div>
-        <button @click="updateProduct">Update</button>
-        <button @click="$router.push({ name: 'products' })">Back</button>
+    <div v-else>
+        <VeeForm :validation-schema="schema" @submit="updateProduct">
+            <div>
+                Name:
+                <VeeField
+                name="Name"
+                as="input"
+                type="text"
+                v-model="newProductData.Name"
+                />
+            </div>
+            <ErrorMessage name="Name" />
+
+            <div>
+                Price:
+                <VeeField
+                name="Price"
+                as="input"
+                step="0.01"
+                type="number"
+                v-model="newProductData.Price"
+                />
+            </div>
+            <ErrorMessage name="Price" />
+
+            <div>
+                Image:
+                <VeeField
+                name="Image"
+                type="text"
+                as="input"
+                v-model="newProductData.Image"
+                />
+            </div>
+        <ErrorMessage name="Image"/>
+
+        <button type="submit">Update</button>
+        <button type="button" @click="$router.push({ name: 'products' })">Back</button>
+        </VeeForm>
     </div>
 </template>
