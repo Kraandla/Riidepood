@@ -1,25 +1,20 @@
 <script>
     import router from "../router/index"
+    import ProductDetailsTable from '../components/ProductDetailsTable.vue';
+    import ProductInfoInputSection from '../components/ProductInfoInputSection.vue'
     export default {
+        components: {
+            ProductDetailsTable,
+            ProductInfoInputSection
+        },
         data() {
             return {
-                newProduct: {
-                    Name: "dipdip",
-                    Price: 15,
-                    Image: "dipdip",
-                },
                 productToBeModified: {
-                    ProductID: "",
+                    ProductID: this.seekID,
                     Name: "",
                     Price: 0,
                     Image: ""
                 },
-                modifiedData: {
-                    ProductID: "",
-                    Name: "",
-                    Price: 0,
-                    Image: ""
-                }
             };
         },
 
@@ -37,26 +32,7 @@
 
         computed: {
             editMode() {
-                return !this.seekID
-                }
-        },
-        methods: {
-            async createProduct() {
-                await 
-                fetch('http://localhost:8080/products', {
-                    method: 'POST',
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify(this.newProduct)
-                });
-                this.$router.push({ name: 'products' });
-            },
-            async updateProduct(){
-                fetch(`http://localhost:8080/products/${this.seekID}`, {
-                    method: 'PUT',
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify(this.modifiedData)
-                });
-                this.$router.push({ name: 'products' });
+                return this.seekID
             }
         },
     }
@@ -64,38 +40,12 @@
 </script>
 
 <template>
-<div v-if="editMode">
-    <h1>Create a New Item</h1>
-        <div>Name: <input v-model="newProduct.Name" type="text"> </input></div>
-        <div>Price: <input v-model="newProduct.Price" type="number"></input></div>
-        <div>Image: <input v-model="newProduct.Image" type="text"></input></div>
-        <button @click="createProduct">Create</button>
-        <button @click="$router.push({ name: 'products' })">Back</button>
+<div v-if="!editMode">
+    <ProductInfoInputSection :seekID="seekID"/>
  </div>
  <div v-else>
-    <table class="table table-striped">
-        <tr>
-            <td>Product ID</td>
-            <td>{{productToBeModified.ProductID}}</td>
-        </tr>
-        <tr>
-            <td>Product Name</td>
-            <td>{{productToBeModified.Name}}</td>
-        </tr>
-        <tr>
-            <td>Product Price</td>
-            <td>{{productToBeModified.Price}}</td>
-        </tr>
-        <tr>
-            <td>Product Image</td>
-            <td>{{productToBeModified.Image}}</td>
-        </tr>
-    </table>
+    <ProductDetailsTable :thisProduct="productToBeModified"/>
     <h1>Update Item</h1>
-        <div>Name: <input v-model="modifiedData.Name" type="text"> </input></div>
-        <div>Price: <input v-model="modifiedData.Price" type="number"></input></div>
-        <div>Image: <input v-model="modifiedData.Image" type="text"></input></div>
-        <button @click="updateProduct">Update</button>
-        <button @click="$router.push({ name: 'products' })">Back</button>
+    <ProductInfoInputSection :seekID="seekID"/>
  </div>
 </template>

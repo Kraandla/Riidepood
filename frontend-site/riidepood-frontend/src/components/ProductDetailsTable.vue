@@ -8,7 +8,6 @@
 </script>
 
 <template>
-    <td>{{ seekID }}</td>
     <table class="table table-striped">
             <tr>
                 <td>Product ID</td>
