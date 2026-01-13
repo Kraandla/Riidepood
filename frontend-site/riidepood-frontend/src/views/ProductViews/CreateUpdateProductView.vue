@@ -1,7 +1,7 @@
 <script>
-    import router from "../router/index"
-    import ProductDetailsTable from '../components/ProductDetailsTable.vue';
-    import ProductInfoInputSection from '../components/ProductInfoInputSection.vue'
+    import router from "../../router/index"
+    import ProductDetailsTable from '../../components/ProductComponents/ProductDetailsTable.vue';
+    import ProductInfoInputSection from '../../components/ProductComponents/ProductInfoInputSection.vue'
     export default {
         components: {
             ProductDetailsTable,

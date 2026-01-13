@@ -1,5 +1,5 @@
 <script>
-    import ProductDetailsTable from '../components/ProductDetailsTable.vue';
+    import ProductDetailsTable from '../../components/ProductComponents/ProductDetailsTable.vue';
 
     export default {
         components: {

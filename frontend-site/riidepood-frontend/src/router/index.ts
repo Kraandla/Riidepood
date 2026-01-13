@@ -19,23 +19,23 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/products',
     name: 'products',
-    component: () => import('../views/ProductsView.vue')
+    component: () => import('../views/ProductViews/ProductsView.vue')
   },
   {
     path: '/products/:itemID',
     name: 'singleProduct',
-    component: () => import('../views/SingleProductView.vue'),
+    component: () => import('../views/ProductViews/SingleProductView.vue'),
     props: route => {return{seekID: String(route.params.itemID)}}
   },
   {
     path: '/newProduct',
     name: 'newProduct',
-    component: () => import('../views/CreateUpdateProductView.vue')
+    component: () => import('../views/ProductViews/CreateUpdateProductView.vue')
   },
   {
     path: '/editProduct/:itemID',
     name: 'editProduct',
-    component: () => import('../views/CreateUpdateProductView.vue'),
+    component: () => import('../views/ProductViews/CreateUpdateProductView.vue'),
     props: route => {return{seekID: String(route.params.itemID)}}
   }
 ];
