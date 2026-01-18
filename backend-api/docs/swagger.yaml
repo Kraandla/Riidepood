@@ -749,6 +749,25 @@ paths:
                         $ref: '#/definitions/Error'
             summary: Register a nwe User
             description: Register a new usrr
+    /auth/login:
+        post:
+            tags:
+                - Auth
+            responses:
+                '200':
+                    description: Retrun 200 if login success
+                '400':
+                    description: Return error if any neede parameter is missing
+                    schema:
+                        $ref: '#/definitions/Error'
+                '401':
+                    description: Return 401 is invalid password
+                '404':
+                    description: Retrun 404 when user not found
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: User login
+            description: User login with Access and Refresh token
 definitions:
     Error:
         title: Root Type for Error
