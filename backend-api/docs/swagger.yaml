@@ -796,6 +796,19 @@ paths:
                         $ref: '#/definitions/Error'
             summary: Refresh user token
             description: 'Refresh user token '
+    /auth/user:
+        get:
+            tags:
+                - Auth
+            responses:
+                '200':
+                    description: Retrun 200 with logged in user data.
+                '401':
+                    description: Retrun 401 when user not found
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Return user info
+            description: Retrun logged in user data
 definitions:
     Error:
         title: Root Type for Error

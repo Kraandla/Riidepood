@@ -4,8 +4,10 @@ const UserController = require("../controllers/UserContoller");
 const DescriptionsController = require("../controllers/DescriptionsController");
 const OrdersController = require("../controllers/OrdersController");
 const express = require('express');
-const router = express.Router();
 const AuthController = require("../controllers/AuthController");
+const authMiddleware = require("../middleware/auth")
+const autenticateToken = require('../middleware/authentication.js');
+
 
 
 
@@ -16,6 +18,7 @@ module.exports = (app) => {
     app.post('/auth/login', AuthController.login);
     app.post('/auth/logout', AuthController.logout);
     app.post('/auth/refresh', AuthController.refresh);
+    app.get('/auth/user', autenticateToken,authMiddleware, AuthController.user);
 
     app.route("/products")
     .get(ProductsController.getAll)

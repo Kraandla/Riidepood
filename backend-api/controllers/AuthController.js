@@ -5,9 +5,9 @@ const { db } = require("../db");
 const UUID = require("uuidv7");
 
 const capitalizeFirstLetter = (str) => {
-    if (!str) return str;
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-}
+  if (!str) return str;
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+};
 
 async function register(req, res) {
   const { FirstName, LastName, Email, Password, ConfirmPassword } = req.body;
@@ -110,11 +110,8 @@ async function refresh(req, res) {
   const user = await db.users.findOne({ where: { RefreshToken: refreshToken } });
   if (!user) return res.sendStatus(403);
 
-  jwt.verify(
-    refreshToken,
-     process.env.REFRESH_TOKEN_SECRET, 
-     (err, decoded) => {
-        if (err || user.UserID !== decoded.UserID) return res.sendStatus(403);
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
+    if (err || user.UserID !== decoded.UserID) return res.sendStatus(403);
     const accessToken = jwt.sign(
       {
         UserID: decoded.UserID,
@@ -126,10 +123,15 @@ async function refresh(req, res) {
   });
 }
 
+async function user(req, res) {
+  const user = req.user;
+  return res.status(200).json(user);
+}
+
 module.exports = {
   register,
   login,
   logout,
   refresh,
+  user,
 };
-
