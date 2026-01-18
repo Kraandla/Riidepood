@@ -38,7 +38,49 @@ async function register(req, res) {
   }
 }
 
+async function login(req, res) {
+  const { Email, Password } = req.body;
+  if (!Email || !Password) {
+    return res.status(400).send({ error: "Missing some parameters." });
+  }
+  const user = await db.users.findOne({ where: { Email: req.body.Email } });
+
+  if (!user) {
+    return res.status(404).send({ error: "User not found." });
+  }
+
+  const passwordMatch = await bcrypt.compare(Password, user.Password);
+  if (!passwordMatch) {
+    return res.status(401).send({ error: "Invalid password." });
+  }
+  const accessToken = jwt.sign(
+    {
+      UserID: user.UserID,
+    },
+    process.env.ACCESS_TOKEN_SECRET,
+    { expiresIn: "1800s" }
+  );
+  const refreshToken = jwt.sign(
+    {
+      UserID: user.UserID,
+    },
+    process.env.REFRESH_TOKEN_SECRET,
+    { expiresIn: "1d" }
+  );
+
+  user.RefreshToken = refreshToken;
+  user.LastLogin = new Date();
+  await user.save();
+
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000,
+  });
+  res.json({ access_token: accessToken });
+}
+
 module.exports = {
   register,
+  login,
 };
 
