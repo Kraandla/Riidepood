@@ -768,6 +768,19 @@ paths:
                         $ref: '#/definitions/Error'
             summary: User login
             description: User login with Access and Refresh token
+    /auth/logout:
+        post:
+            tags:
+                - Auth
+            responses:
+                '204':
+                    description: Return 204 if logout is success
+                '500':
+                    description: Return 500 if Logout failed
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: User logout
+            description: Logout user and clear cookies
 definitions:
     Error:
         title: Root Type for Error

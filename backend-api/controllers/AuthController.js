@@ -79,8 +79,33 @@ async function login(req, res) {
   res.json({ access_token: accessToken });
 }
 
+async function logout(req, res) {
+  try {
+    const cookies = req.cookies;
+    if (!cookies?.refreshToken) return res.sendStatus(204);
+
+    const refreshToken = cookies.refreshToken;
+    const user = await db.users.findOne({ where: { RefreshToken: refreshToken } });
+
+    if (!user) {
+      res.clearCookie("refreshToken", { httpOnly: true });
+      return res.sendStatus(204);
+    }
+
+    user.RefreshToken = null;
+    await user.save();
+
+    res.clearCookie("refreshToken", { httpOnly: true });
+    res.sendStatus(204);
+  } catch (error) {
+    console.error("Logout error:", error);
+    res.status(500).json({ error: "Logout failed" });
+  }
+}
+
 module.exports = {
   register,
   login,
+  logout,
 };
 
