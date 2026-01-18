@@ -103,9 +103,33 @@ async function logout(req, res) {
   }
 }
 
+async function refresh(req, res) {
+  const cookies = req.cookies;
+  if (!cookies.refreshToken) return res.sendStatus(401);
+  const refreshToken = cookies.refreshToken;
+  const user = await db.users.findOne({ where: { RefreshToken: refreshToken } });
+  if (!user) return res.sendStatus(403);
+
+  jwt.verify(
+    refreshToken,
+     process.env.REFRESH_TOKEN_SECRET, 
+     (err, decoded) => {
+        if (err || user.UserID !== decoded.UserID) return res.sendStatus(403);
+    const accessToken = jwt.sign(
+      {
+        UserID: decoded.UserID,
+      },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "1800s" }
+    );
+    res.json({ access_token: accessToken });
+  });
+}
+
 module.exports = {
   register,
   login,
   logout,
+  refresh,
 };
 

@@ -15,6 +15,7 @@ module.exports = (app) => {
     app.post('/auth/register', AuthController.register);
     app.post('/auth/login', AuthController.login);
     app.post('/auth/logout', AuthController.logout);
+    app.post('/auth/refresh', AuthController.refresh);
 
     app.route("/products")
     .get(ProductsController.getAll)

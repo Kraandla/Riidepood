@@ -781,6 +781,21 @@ paths:
                         $ref: '#/definitions/Error'
             summary: User logout
             description: Logout user and clear cookies
+    /auth/refresh:
+        post:
+            tags:
+                - Auth
+            responses:
+                '401':
+                    description: return 401 if refreshToken does not exists
+                    schema:
+                        $ref: '#/definitions/Error'
+                '403':
+                    description: return 403 if user not found
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Refresh user token
+            description: 'Refresh user token '
 definitions:
     Error:
         title: Root Type for Error
