@@ -3,8 +3,17 @@ const CategoryController = require("../controllers/CategoryController");
 const UserController = require("../controllers/UserContoller");
 const DescriptionsController = require("../controllers/DescriptionsController");
 const OrdersController = require("../controllers/OrdersController");
+const express = require('express');
+const router = express.Router();
+const AuthController = require("../controllers/AuthController");
+
+
+
 
 module.exports = (app) => {
+
+    app.post('/auth/register', AuthController.register);
+
     app.route("/products")
     .get(ProductsController.getAll)
     .post(ProductsController.create);
@@ -49,4 +58,6 @@ module.exports = (app) => {
     .delete(OrdersController.deleteById)
     .put(OrdersController.modifiyById)
     .get(OrdersController.getById);
+
+    
 }

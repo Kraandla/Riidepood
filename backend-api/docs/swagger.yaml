@@ -706,6 +706,49 @@ paths:
                 name: OrderID
                 in: path
                 required: true
+    /auth/register:
+        post:
+            tags:
+                - Auth
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/New-User'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Send 201 when user is registerd successfully
+                    schema:
+                        $ref: '#/definitions/New-User'
+                    examples:
+                        application/json:
+                            -
+                                UserID: g
+                                FirstName: Mati
+                                LastName: Kask
+                                Email: mati@example.com
+                                Password: 5wq
+                                LastLogin: b
+                                IsAdmin: false
+                                OrderID:
+                                    - {}
+                                    - {}
+                '400':
+                    description: Send 400 when missing some params
+                    schema:
+                        $ref: '#/definitions/Error'
+                '409':
+                    description: Returns 409 if email is taken
+                    schema:
+                        $ref: '#/definitions/Error'
+                '422':
+                    description: Send error 422 when password and confirm-password do not atch
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Register a nwe User
+            description: Register a new usrr
 definitions:
     Error:
         title: Root Type for Error
