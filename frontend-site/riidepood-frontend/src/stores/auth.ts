@@ -95,6 +95,21 @@ async register(payload: RegisterData){
     throw new Error('Network error. Please check your connection and try again.')
   }
 },
+async updateUser(payload: Partial<User>) {
+  try {
+    const {data} = await useApiPrivate().put(`/auth/user`, payload);
+    this.user = data
+    return data
+  } catch (error: any) {
+    if (error.response) {
+      if (error.response.status === 409) {
+        throw new Error('This email is already in use.')
+      }
+      throw new Error(error.response.data?.error || error.response.data?.message || 'Failed to update user.')
+    }
+    throw new Error('Network error. Please check your connection and try again.')
+  }
+},
 
   async getUser(){
   try {
