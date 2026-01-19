@@ -89,6 +89,19 @@ async register(payload: RegisterData){
   }
 },
 
+  async getUser(){
+  try {
+    const {data} = await useApiPrivate().get(`/auth/user`);
+    this.user = data
+    return data
+  } catch (error: any) {
+    if (error.response) {
+      throw new Error(error.response.data?.error || error.response.data?.message || 'Failed to get user data.')
+    }
+    throw new Error('Network error. Please check your connection and try again.')
+  }
+},
+
 
  
   }

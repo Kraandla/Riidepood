@@ -20,6 +20,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/auth/RegisterView.vue'),
      meta: { requiresGuest: true }
   },
+     {
+    path: '/user',
+    name: 'user',
+    component: () => import('../views/auth/UserView.vue'),
+    meta: { requiresAuth: true }
+  },
 
   {
     path: '/products',
