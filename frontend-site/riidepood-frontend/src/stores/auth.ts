@@ -43,7 +43,16 @@ export const useAuthStore = defineStore('auth', {
   },
 
   actions:{
-   
+    async attempt(){
+      try {
+        await this.refresh()
+        await this.getUser()
+      } catch (error) {
+        return
+      }
+      return
+    },
+
 
   async login(payload: LoginData){
   try {
@@ -66,8 +75,6 @@ export const useAuthStore = defineStore('auth', {
     throw new Error('Network error. Please check your connection and try again.')
   }
 },
-
-
 
 async register(payload: RegisterData){
   try {
@@ -102,7 +109,25 @@ async register(payload: RegisterData){
   }
 },
 
+    async logout(){
+      try {
+        const {data} = await useApiPrivate().post(`/auth/logout`);
+        this.accessToken = ""
+        this.user = {} as User
+        return data
+      } catch (error: Error | any) {
+        throw error.message
+      }
+    },
 
- 
+    async refresh(){
+      try {
+        const {data} = await useApi().post(`/auth/refresh`);
+        this.accessToken = data.access_token
+        return data
+      } catch (error: Error | any) {
+        throw error.message
+      }
+    }
   }
 })
