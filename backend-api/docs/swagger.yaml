@@ -809,6 +809,28 @@ paths:
                         $ref: '#/definitions/Error'
             summary: Return user info
             description: Retrun logged in user data
+        put:
+            tags:
+                - Auth
+            responses:
+                '200':
+                    description: Retrun 200 if user details update success
+                    schema:
+                        $ref: '#/definitions/New-User'
+                '400':
+                    description: Retrun 400 if any params is invalid
+                    schema:
+                        $ref: '#/definitions/Error'
+                '404':
+                    description: Return 404 if user not found in database
+                    schema:
+                        $ref: '#/definitions/Error'
+                '409':
+                    description: Retrun 409 if user want to use email what is taken already
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Update user details
+            description: Update user details in database
 definitions:
     Error:
         title: Root Type for Error

@@ -19,6 +19,7 @@ module.exports = (app) => {
     app.post('/auth/logout', AuthController.logout);
     app.post('/auth/refresh', AuthController.refresh);
     app.get('/auth/user', autenticateToken,authMiddleware, AuthController.user);
+    app.put('/auth/user', autenticateToken,authMiddleware, AuthController.updateUser);
 
     app.route("/products")
     .get(ProductsController.getAll)

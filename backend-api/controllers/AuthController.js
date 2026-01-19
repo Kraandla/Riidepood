@@ -136,10 +136,46 @@ async function user(req, res) {
   return res.status(200).json(user);
 }
 
+async function updateUser(req, res) {
+  try {
+    const { FirstName, LastName, Email } = req.body;
+    const userId = req.user.UserID;
+    
+    const user = await db.users.findOne({ where: { UserID: userId } });
+    if (!user) return res.status(404).json({ error: "User not found." });
+    
+
+    if (Email && Email !== user.Email) {
+      const emailExists = await db.users.findOne({ where: { Email } });
+      if (emailExists) {
+        return res.status(409).json({ error: "Email already in use." });
+      }
+    }
+    
+    if (FirstName) user.FirstName = capitalizeFirstLetter(FirstName.trim());
+    if (LastName) user.LastName = capitalizeFirstLetter(LastName.trim());
+    if (Email) user.Email = Email.toLowerCase();
+    
+    await user.save();
+    
+    res.json({
+      UserID: user.UserID,
+      FirstName: user.FirstName,
+      LastName: user.LastName,
+      Email: user.Email,
+      IsAdmin: user.IsAdmin
+    });
+  } catch (error) {
+    console.error("Update user error:", error);
+    res.status(400).json({ error: "Could not update user." });
+  }
+}
+
 module.exports = {
   register,
   login,
   logout,
   refresh,
   user,
+  updateUser
 };
