@@ -16,6 +16,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
   },
+
+  //product routes
   {
     path: '/products',
     name: 'products',
@@ -37,7 +39,31 @@ const routes: Array<RouteRecordRaw> = [
     name: 'editProduct',
     component: () => import('../views/ProductViews/CreateUpdateProductView.vue'),
     props: route => {return{seekID: String(route.params.itemID)}}
-  }
+  },
+
+  //order routes
+    {
+    path: '/orders',
+    name: 'orders',
+    component: () => import('../views/OrderViews/OrdersView.vue')
+  },
+  {
+    path: '/orders/:itemID',
+    name: 'singleOrder',
+    component: () => import('../views/OrderViews/SingleOrderView.vue'),
+    props: route => {return{seekID: String(route.params.itemID)}}
+  },
+  {
+    path: '/newOrder',
+    name: 'newOrder',
+    component: () => import('../views/OrderViews/CreateUpdateOrderView.vue')
+  },
+  {
+    path: '/editOrder/:itemID',
+    name: 'editOrder',
+    component: () => import('../views/OrderViews/CreateUpdateOrderView.vue'),
+    props: route => {return{seekID: String(route.params.itemID)}}
+  },
 ];
 
 const router = createRouter({
