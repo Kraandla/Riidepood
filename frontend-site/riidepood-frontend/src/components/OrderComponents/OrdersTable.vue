@@ -8,6 +8,17 @@
         props: {
             items: Array,
         },
+        methods: {
+            async updateOrderStatus(order){
+                const newStatus = order.Status === 0 ? 1 : 0;
+                await fetch(`http://localhost:8080/orders/${order.OrderID}`, {
+                    method: 'PUT',
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({Status: newStatus})
+                });
+                order.Status = newStatus;
+            },
+        }
     }
 </script>
 
@@ -33,14 +44,12 @@
                     Unconfirmed
                 </td>
                 <td>
-                    <button>
-                        <router-link :to="{ name: 'editOrder', params: { itemID: item.OrderID} }">
-                                Edit
-                            </router-link>
+                    <button @click="updateOrderStatus(item)">
+                        Confirm/Unconfirm
                     </button>
                 </td>
                 <td>
-                    <order-delete-button :seekID="item.OrderID" :items="items" />
+                    <order-delete-button :seekID="item.OrderID"/>
                 </td>
             </tr>
         </tbody>

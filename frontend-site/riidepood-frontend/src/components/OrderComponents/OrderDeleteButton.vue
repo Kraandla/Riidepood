@@ -12,10 +12,8 @@
         },
         methods: {
             async deleteOrder(){
-                await fetch(`http://localhost:8080/order/${this.seekID}`, {
+                await fetch(`http://localhost:8080/orders/${this.seekID}`, {
                     method: 'DELETE',
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({OrderID: this.seekID})
                 });
                 this.$router.go();
             }
