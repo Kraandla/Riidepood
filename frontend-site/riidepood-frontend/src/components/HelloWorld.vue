@@ -1,14 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-  
-    <h2>Login in</h2>
-    <label for="email">Email:</label>
-    <input type="email" id="email" placeholder="Email" /><br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" placeholder="Password" /><br>
-    <button>Login</button>
-    <p>Not registered? <router-link to="/register">Create an account</router-link></p>
+
     
  
   </div>

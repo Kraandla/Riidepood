@@ -75,6 +75,8 @@ async function login(req, res) {
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000,
+    sameSite: "None",
+    secure: true
   });
   res.json({ access_token: accessToken });
 }
@@ -88,14 +90,20 @@ async function logout(req, res) {
     const user = await db.users.findOne({ where: { RefreshToken: refreshToken } });
 
     if (!user) {
-      res.clearCookie("refreshToken", { httpOnly: true });
+      res.clearCookie("refreshToken", 
+        { httpOnly: true, 
+          sameSite: "None", 
+          secure: true });
       return res.sendStatus(204);
     }
 
     user.RefreshToken = null;
     await user.save();
 
-    res.clearCookie("refreshToken", { httpOnly: true });
+    res.clearCookie("refreshToken", 
+      { httpOnly: true, 
+        sameSite: "None", 
+        secure: true });
     res.sendStatus(204);
   } catch (error) {
     console.error("Logout error:", error);

@@ -10,8 +10,14 @@
           </div>
           <div class="mb-3">
             <label for="password" class="form-label">Password</label>
-            <input v-model="loginData.Password" type="password" class="form-control" id="password">
+            <input v-model="loginData.Password" type="password" class="form-control" id="password" required>
           </div>
+          
+          <!-- Add error message display -->
+          <div v-if="errorMessage" class="alert alert-danger" role="alert">
+            {{ errorMessage }}
+          </div>
+          
           <button type="submit" class="btn btn-success">Login</button>
         </form>
       </div>
@@ -21,7 +27,7 @@
 
 <script setup lang="ts">
 import { useAuthStore, type LoginData } from '../../stores/auth';
-import { reactive, ref } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
 const authStore = useAuthStore()
@@ -30,6 +36,10 @@ const router = useRouter()
 const loginData = reactive<LoginData>({
   Email: "",
   Password: "",
+})
+
+watch(loginData, () => {
+  errorMessage.value = ""
 })
 
 const errorMessage = ref<string>("")
