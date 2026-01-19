@@ -8,7 +8,12 @@ const routes: Array<RouteRecordRaw> = [
     name: "home",
     component: HomeView,
   },
-
+    {
+    path: "/login",
+    name: "login",
+    component: () => import("../views/auth/LoginView.vue"),
+    meta: { requiresGuest: true }
+  },
   {
     path: '/register',
     name: 'register',

@@ -45,6 +45,27 @@ export const useAuthStore = defineStore('auth', {
   actions:{
    
 
+  async login(payload: LoginData){
+  try {
+    const {data} = await useApi().post(`/auth/login`, payload);
+    this.accessToken = data.access_token
+    await this.getUser()
+    return data
+  } catch (error: any) {
+    if (error.response) {
+      // Server responded with error status
+      if (error.response.status === 404) {
+        throw new Error('User not found. Please check your email or register.')
+      } else if (error.response.status === 401) {
+        throw new Error('Invalid password. Please try again.')
+      } else if (error.response.status === 400) {
+        throw new Error(error.response.data?.error || 'Please fill in all required fields.')
+      }
+      throw new Error(error.response.data?.error || error.response.data?.message || 'Login failed. Please try again.')
+    }
+    throw new Error('Network error. Please check your connection and try again.')
+  }
+},
 
 
 
