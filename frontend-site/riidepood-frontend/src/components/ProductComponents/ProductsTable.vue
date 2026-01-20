@@ -1,9 +1,11 @@
 <script>
     import ProductDeleteButton from './ProductDeleteButton.vue'
+    import AddToCart from '../AddToCart.vue'
     export default {
         name: "ProductsTable",
         components: {
-            ProductDeleteButton
+            ProductDeleteButton,
+            AddToCart
         },
         props: {
             items: Array,
@@ -37,6 +39,9 @@
                 </td>
                 <td>
                     <product-delete-button :seekID="item.ProductID" :items="items" />
+                </td>
+                <td>
+                    <add-to-cart :product-id="item.ProductID"/>
                 </td>
             </tr>
         </tbody>

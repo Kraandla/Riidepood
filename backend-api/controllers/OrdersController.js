@@ -61,7 +61,7 @@ async (req, res) => {
     const orderToBeModified = await getOrder(req, res);
     if (!orderToBeModified) {return res.status(404).send({error: 'Order not found'});}
 
-    if(orderToBeModified.Status == req.body.Status)
+    if(orderToBeModified.Status === req.body.Status || !req.body.Status)
         {return res.status(400).send({error: 'No new parameters given or they are invalid.'})};
     orderToBeModified.Status = req.body.Status;
     await orderToBeModified.save();
