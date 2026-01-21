@@ -46,7 +46,7 @@ async (req, res) => {
     return res
     .location
     (`${Utilities.getBaseUrl(req)}/products/${createdProduct.ProductID}`)
-    .sendStatus(201);
+    .status(201).json(newProduct);
 }
 
 exports.deleteById =

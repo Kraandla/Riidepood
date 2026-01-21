@@ -7,12 +7,12 @@
         },
         data() {
             return {
-                thisProduct: {
-                    ProductID: this.seekID,
-                    Name: "",
-                    Price: 0,
-                    Image: ""
-                }
+                thisProduct: null,
+                thisDescription: {
+                    Material: "",
+                    Color: "",
+                    Size: "",
+                },
             }
         },
         props: {
@@ -22,12 +22,15 @@
             }
         },
         async created() {
-        
-        this.thisProduct = await (await fetch(`http://localhost:8080/products/${this.seekID}`)).json();
-    }
+            this.thisProduct = await (await fetch(`http://localhost:8080/products/${this.seekID}`)).json();
+            if (this.thisProduct.DescriptionDescriptionID) {
+                this.thisDescription = await (await fetch(`http://localhost:8080/descriptions/${this.thisProduct.DescriptionDescriptionID}`)).json();
+            }
+        }
     }
 </script>
 
-<template> 
-    <ProductDetailsTable :thisProduct="thisProduct"/>
+<template>
+    <ProductDetailsTable :thisProduct="thisProduct" :thisDescription="thisDescription"/>
+    <button type="button" @click="$router.push({ name: 'products' })">Back</button>
 </template>
