@@ -15,7 +15,7 @@
                 thisProduct: null,
                 thisDescription: null,
                 productToBeEdited: null,
-                addDescription: false,
+                descriptionWillBeValidatedCheck: false,
                 descriptionToBeCreated: {
                     ProductID: "",
                     Material: "",
@@ -51,57 +51,98 @@
             },
         },
         methods: {
-            async handleSubmit(){
+            async formValidation(){
                 const isValidProductForm = await this.$refs.productInputForm.validateForm();
                 let isValidDescriptionForm = null;
-                if(this.addDescription) {
+
+                if(this.descriptionWillBeValidatedCheck) {
                     isValidDescriptionForm = await this.$refs.descriptionInputForm.validateForm();
                 }
                 if(isValidProductForm) {  
                     this.productToBeEdited = this.$refs.productInputForm.getValues();
                 }
-                if(this.addDescription) {    
+                if(this.descriptionWillBeValidatedCheck) {    
                     if(isValidDescriptionForm){
                         this.descriptionToBeEdited = this.$refs.descriptionInputForm.getValues();
+                        this.descriptionToBeCreated = this.$refs.descriptionInputForm.getValues();
                     }
                 }
-                if(this.editMode){
-                    this.updateProduct();
-                } else {
-                    this.createProduct();
+
+                if (isValidProductForm || isValidDescriptionForm) {
+                    this.handleSubmit(isValidProductForm, isValidDescriptionForm);
                 }
             },
-            async createProduct() {
+            async handleSubmit(productForm, descriptionForm){
+                let checkForProductDescription = this.thisProduct.DescriptionDescriptionID != null;
+                if(this.editMode){
+                    if (productForm) {
+                        this.updateProduct();
+                    }
+                    if (descriptionForm) {
+                        if (descriptionForm && checkForProductDescription) {
+                            this.updateDescription();
+                        } else {
+                            this.createNewDescription(this.seekID);
+                        }
+                    }
+                } else {
+                    if (productForm)  {
+                        this.createProduct(descriptionForm);
+                    }
+                }
+            },
+
+            async createProduct(descriptionForm) {
                 const response = await fetch('http://localhost:8080/products', {
                     method: 'POST',
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify(this.productToBeEdited)
                 });
 
-                if(this.addDescription) {
+                if (descriptionForm){
                     const createdProduct = await response.json();
-                    this.descriptionToBeCreated.ProductID = createdProduct.ProductID;
-                    await fetch('http://localhost:8080/descriptions', {
-                        method: 'POST',
-                        headers: {"Content-Type": "application/json"},
-                        body: JSON.stringify(this.descriptionToBeEdited)
-                    });
+                    this.createNewDescription(createdProduct.ProductID);
                 }
+
                 this.$router.push({ name: 'products' });
             },
+
             async updateProduct(){
                 await fetch(`http://localhost:8080/products/${this.seekID}`, {
                     method: 'PUT',
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify(this.productToBeEdited)
-                });
+                });                
+
                 this.$router.push({ name: 'products' });
             },
+
             async deleteDescription(){
                     await fetch(`http://localhost:8080/descriptions/${this.thisProduct.DescriptionDescriptionID}`, {
                         method: 'DELETE',
                     });
                 this.$router.go();
+            },
+
+            async createNewDescription(productId) {               
+                if(this.descriptionWillBeValidatedCheck) {
+                    this.descriptionToBeCreated.ProductID = productId;
+                    await fetch('http://localhost:8080/descriptions', {
+                        method: 'POST',
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify(this.descriptionToBeCreated)
+                    });
+                }
+            },
+
+            async updateDescription() {                               
+                if(this.descriptionWillBeValidatedCheck) {
+                    await fetch(`http://localhost:8080/descriptions/${this.thisProduct.DescriptionDescriptionID}`, {
+                        method: 'PUT',
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify(this.descriptionToBeEdited)
+                    });
+                }
             }
         },
     }
@@ -112,13 +153,13 @@
 <div v-if="!editMode">
     
     <ProductInputSection ref="productInputForm" :seekID="seekID"/>
-    <button type="button" v-if="!addDescription" @click="addDescription = true">Add description</button>
-    <DescriptionInputSection v-if="addDescription" ref="descriptionInputForm"/>
+    <button type="button" v-if="!descriptionWillBeValidatedCheck" @click="descriptionWillBeValidatedCheck = true">Add description</button>
+    <DescriptionInputSection :descr v-if="descriptionWillBeValidatedCheck" ref="descriptionInputForm"/>
     
     <div>
-        <button @click="handleSubmit()">Create</button>
+        <button @click="formValidation()">Create</button>
         <button type="button" @click="$router.push({ name: 'products' })">Back</button>
-        <button type="button" v-if="addDescription" @click="addDescription = false">Remove description</button>
+        <button type="button" v-if="descriptionWillBeValidatedCheck" @click="descriptionWillBeValidatedCheck = false">Remove description</button>
     </div>
 
  </div>
@@ -127,15 +168,15 @@
         <ProductDetailsTable :thisProduct="thisProduct" :thisDescription="thisDescription"/>
     <h1>Update Item</h1>
         <ProductInputSection ref="productInputForm" :seekID="seekID"/>
-        <button type="button" v-if="!addDescription" @click="addDescription = true">Edit Description</button>
-    <div v-if="addDescription">
+        <button type="button" v-if="!descriptionWillBeValidatedCheck" @click="descriptionWillBeValidatedCheck = true">Edit Description</button>
+    <div v-if="descriptionWillBeValidatedCheck">
         <DescriptionInputSection :seekID="seekID" ref="descriptionInputForm"/>
     </div>
 
     <div>
-        <button @click="handleSubmit()">Confirm edit</button>
-        <button type="button" v-if="addDescription" @click="addDescription = false">Remove current edit description</button>
-        <button type="button" v-if="addDescription && thisProduct.DescriptionDescriptionID" @click="deleteDescription">Delete description</button>
+        <button @click="formValidation()">Confirm edit</button>
+        <button type="button" v-if="descriptionWillBeValidatedCheck" @click="descriptionWillBeValidatedCheck = false">Remove current edit description</button>
+        <button type="button" v-if="descriptionWillBeValidatedCheck && thisProduct.DescriptionDescriptionID" @click="deleteDescription">Delete description</button>
         <button type="button" @click="$router.push({ name: 'products' })">Back</button>
     </div>
  </div>
