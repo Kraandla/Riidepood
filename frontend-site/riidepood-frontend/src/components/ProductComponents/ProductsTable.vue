@@ -41,11 +41,11 @@
         </thead>
 
         <tbody>
-            <tr @click="goToProductDetails(item)" class="table-row" style="cursor: pointer;" v-for="(item, index) in items" :key="item.ProductID">
-                <td>{{ index + 1}}</td>
-                <td>{{item.ProductID}}</td>
-                <td>{{ item.Name }}</td>
-                <td>{{ item.Price }} €</td>
+            <tr class="table-row" style="cursor: pointer;" v-for="(item, index) in items" :key="item.ProductID">
+                <td @click="goToProductDetails(item)">{{ index + 1}}</td>
+                <td @click="goToProductDetails(item)">{{item.ProductID}}</td>
+                <td @click="goToProductDetails(item)">{{ item.Name }}</td>
+                <td @click="goToProductDetails(item)">{{ item.Price }} €</td>
 
                 <td v-if="!item.Image">No image</td>
                 <td v-else>Has an image</td>

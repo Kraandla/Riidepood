@@ -31,6 +31,8 @@
 </script>
 
 <template>
-    <ProductDetailsTable :thisProduct="thisProduct" :thisDescription="thisDescription"/>
-    <button type="button" @click="$router.push({ name: 'products' })">Back</button>
+        <ProductDetailsTable class="flex-row" :thisProduct="thisProduct" :thisDescription="thisDescription"/>
+        <div class="d-flex mt-0 justify-content-center table-responsive w-100">
+            <button class="btn btn-secondary w-50 rounded-top-0" type="button" @click="$router.push({ name: 'products' })">Back</button>  
+        </div>
 </template>
