@@ -32,5 +32,5 @@
 </script>
 
 <template>
-        <button @click="deleteProduct">Delete</button>
+        <button class="btn btn-danger col-5 ms-auto" @click="deleteProduct">Delete</button>
 </template>

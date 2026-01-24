@@ -4,6 +4,7 @@ import { createApp } from "vue";
 import { createPinia } from "pinia";
 import "../node_modules/bootstrap/dist/css/bootstrap.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle.js";
+import "./styles/tables.css"
 import App from "./App.vue";
 
 

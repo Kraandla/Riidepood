@@ -9,7 +9,7 @@ async (req, res) => {
     console.log("getAll: " + Allproducts);
     res
     .status(200)
-    .send(Allproducts.map(({ProductID, Name, Price}) => {return{ProductID, Name, Price}}));
+    .send(Allproducts.map(({ProductID, Name, Price, Image}) => {return{ProductID, Name, Price, Image}}));
 }
 
 exports.getByID = 
