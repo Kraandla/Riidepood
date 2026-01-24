@@ -2,6 +2,7 @@
     export default{
         name: "ProductDeleteButton",
         data(){
+            thisProduct: null
         },
         props: {
             seekID: {
@@ -12,11 +13,18 @@
         },
         methods: {
             async deleteProduct(){
+                this.thisProduct = await (await fetch(`http://localhost:8080/products/${this.seekID}`)).json();
+                const descriptionCheck = this.thisProduct.DescriptionDescriptionID != null;
+
                 await fetch(`http://localhost:8080/products/${this.seekID}`, {
                     method: 'DELETE',
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({ProductID: this.seekID})
                 });
+                if (descriptionCheck) {
+                    await fetch(`http://localhost:8080/descriptions/${this.thisProduct.DescriptionDescriptionID}`, {
+                        method: 'DELETE',
+                    });
+                }
+                
                 this.$router.go();
             }
         },
