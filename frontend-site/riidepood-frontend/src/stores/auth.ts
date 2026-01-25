@@ -5,7 +5,8 @@ export interface User{
   UserID: number,
   Email: string,
   FirstName: string,
-  LastName: string, 
+  LastName: string,
+  IsAdmin?: boolean
 }
 
 export interface State{
@@ -39,7 +40,8 @@ export const useAuthStore = defineStore('auth', {
 
   getters: {
     userDetail: (state: State) => state.user,
-    isAuthenticated: (state: State) => state.accessToken ? true : false
+    isAuthenticated: (state: State) => state.accessToken ? true : false,
+    isAdmin: (state: State) => state.user?.IsAdmin === true
   },
 
   actions:{

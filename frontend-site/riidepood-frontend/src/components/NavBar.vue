@@ -23,6 +23,7 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
               <li><router-link :to="{ name: 'user' }" class="dropdown-item">Profile</router-link></li>
+              <li v-if="isAdmin"><router-link :to="{ name: 'adminUsers' }" class="dropdown-item">Manage Users</router-link></li>
               <li>
                 <hr class="dropdown-divider">
               </li>
@@ -59,6 +60,10 @@ const user = computed(() => {
 
 const isAuthenticated = computed(() => {
   return authStore.isAuthenticated
+})
+
+const isAdmin = computed(() => {
+  return authStore.isAdmin
 })
 
 async function logout() {

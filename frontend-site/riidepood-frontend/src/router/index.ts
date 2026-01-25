@@ -41,6 +41,12 @@ const routes: Array<RouteRecordRaw> = [
     path: '/newProduct',
     name: 'newProduct',
     component: () => import('../views/CreateProductView.vue')
+  },
+  {
+    path: '/admin/users',
+    name: 'adminUsers',
+    component: () => import('../views/AdminUsersView.vue'),
+    meta: { requiresAuth: true, requiresAdmin: true }
   }
 ];
 
@@ -55,6 +61,8 @@ router.beforeResolve(async (to, from, next)=>{
   if(to.meta.requiresAuth && !authStore.isAuthenticated){   
     return next({name: 'login', query: {redirect: to.fullPath}})
   }else if(to.meta.requiresGuest && authStore.isAuthenticated){
+    return next({name: 'home'})
+  }else if(to.meta.requiresAdmin && !authStore.isAdmin){
     return next({name: 'home'})
   }else{
     return next()

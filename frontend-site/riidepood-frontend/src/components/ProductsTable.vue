@@ -1,11 +1,13 @@
-<script> 
-    export default {
-        name: "ProductsTable",
-        props: {
-            items: Array,
-        }
-    }
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useAuthStore } from '../stores/auth'
 
+defineProps<{
+    items: Array<any>
+}>()
+
+const authStore = useAuthStore()
+const isAdmin = computed(() => authStore.isAdmin)
 </script>
 
 <template> 
@@ -28,5 +30,7 @@
             </tr>
         </tbody>
     </table>
-    <button><router-link to="/newProduct">Create new product</router-link></button>
+    <button v-if="isAdmin" class="btn btn-primary mt-3">
+        <router-link to="/newProduct" class="text-white text-decoration-none">Create new product</router-link>
+    </button>
 </template>
