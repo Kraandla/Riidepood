@@ -6,6 +6,7 @@ const OrdersController = require("../controllers/OrdersController");
 const express = require('express');
 const AuthController = require("../controllers/AuthController");
 const authMiddleware = require("../middleware/auth")
+const adminMiddleware = require("../middleware/admin")
 const autenticateToken = require('../middleware/authentication.js');
 
 
@@ -40,13 +41,16 @@ module.exports = (app) => {
     .put(CategoryController.updateCategoryByID);
 
     app.route('/users')
-    .get(UserController.getAll)
+    .get(autenticateToken, authMiddleware, adminMiddleware, UserController.getAll)
     .post(UserController.createUser);
 
     app.route('/users/:UserID')
     .get(UserController.getUserByID)
     .put(UserController.updateUserByID)
     .delete(UserController.deleteUserByID);
+    
+
+    app.put('/users/:UserID/toggle-admin', autenticateToken, authMiddleware, adminMiddleware, UserController.toggleAdmin);
 
     app.route("/descriptions")
     .get(DescriptionsController.getAll)

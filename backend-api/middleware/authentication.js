@@ -22,6 +22,7 @@ function autenticateToken(req, res, next) {
           FirstName: user.FirstName,
           LastName: user.LastName,
           Email: user.Email,
+          IsAdmin: user.IsAdmin,
         };
       } else {
         req.user = {};

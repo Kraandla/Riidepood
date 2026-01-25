@@ -831,6 +831,23 @@ paths:
                         $ref: '#/definitions/Error'
             summary: Update user details
             description: Update user details in database
+    '/users/{UserID}/toggle-admin':
+        put:
+            tags:
+                - Users
+            responses:
+                '200':
+                    description: User isAdmin status change success
+                '403':
+                    description: User do not have permission to change other user isAdmin status
+                    schema:
+                        $ref: '#/definitions/Error'
+                '404':
+                    description: User not found to update isAdmin status
+                    schema:
+                        $ref: '#/definitions/Error'
+            summary: Update user isAdmin status
+            description: Update User isAdmin status
 definitions:
     Error:
         title: Root Type for Error

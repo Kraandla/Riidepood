@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt');
 exports.getAll = async (req, res) => {
     const AllUsers = await db.users.findAll();
     console.log('get all users' + AllUsers);
-    res.status(200).send(AllUsers.map(({UserID, FirstName, LastName, Email}) => {return {UserID, FirstName, LastName, Email}}));
+    res.status(200).send(AllUsers.map(({UserID, FirstName, LastName, Email, IsAdmin}) => {return {UserID, FirstName, LastName, Email, IsAdmin}}));
 
 
 }
@@ -73,4 +73,14 @@ exports.deleteUserByID = async (req, res) => {
     }
     await userToBeDeleted.destroy();
     return res.sendStatus(204).send({error: "No Content"});
+}
+
+exports.toggleAdmin = async (req, res) => {
+    const user = await db.users.findByPk(req.params.UserID);
+    if (!user) {
+        return res.status(404).send({error: "User not found."});
+    }
+    user.IsAdmin = !user.IsAdmin;
+    await user.save();
+    return res.status(200).send({UserID: user.UserID, FirstName: user.FirstName, LastName: user.LastName, Email: user.Email, IsAdmin: user.IsAdmin});
 }

@@ -28,7 +28,7 @@ async function register(req, res) {
       UserID: UUID.uuidv7(),
       FirstName: capitalizeFirstLetter(FirstName.trim()),
       LastName: capitalizeFirstLetter(LastName.trim()),
-      Email,
+      Email: Email.toLowerCase(),
       Password: hashedPassowrd,
     });
     return res.sendStatus(201);
