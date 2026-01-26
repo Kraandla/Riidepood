@@ -11,7 +11,7 @@
           <li class="nav-item">
             <router-link :to="{ name: 'home' }" class="nav-link" aria-current="page">Home</router-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="isAdmin">
             <router-link :to="{ name: 'products' }" class="nav-link" aria-current="page">Products</router-link>
           </li>
 
