@@ -17,6 +17,7 @@
 </script>
 
 <template>
+    <h1>All Products</h1>
     <main>
         <ProductsTable :items="allProducts"/>
     </main>

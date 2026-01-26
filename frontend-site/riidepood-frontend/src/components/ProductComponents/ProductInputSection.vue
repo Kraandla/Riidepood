@@ -48,41 +48,53 @@
         }
     }
 </script>
+<style>
+    span.input-group-text{
+        color: #f8f9fa
+    }
+    .input-group {
+        margin: 20px 0px
+    }
+</style>
 
 <template>
         <VeeForm ref="productInputForm" :validation-schema="chooseSchema">
-            <div>
-                Name:
+            <div class="input-group">
+                <span class="bg-dark input-group-text col-3" id="inputGroup-sizing-default">Name</span>
                 <VeeField
+                class="form-control"
                 name="Name"
                 as="input"
                 type="text"
                 v-model="newProductData.Name"
                 />
             </div>
-            <ErrorMessage name="Name" />
+            <ErrorMessage class="error" name="Name" />
 
-            <div>
-                Price:
+            <div class="input-group">
+                <span class="bg-dark input-group-text col-3" id="inputGroup-sizing-default">Price</span>
                 <VeeField
+                class="form-control"
                 name="Price"
                 as="input"
                 step="0.01"
                 type="number"
                 v-model="newProductData.Price"
                 />
+                <span class="bg-dark input-group-text" id="inputGroup-sizing-default">€</span>
             </div>
-            <ErrorMessage name="Price" />
+            <ErrorMessage class="error" name="Price" />
 
-            <div>
-                Image:
+            <div class="input-group">
+                <span class="bg-dark input-group-text col-3" id="inputGroup-sizing-default">Picture</span>
                 <VeeField
+                class="form-control"
                 name="Image"
                 type="text"
                 as="input"
                 v-model="newProductData.Image"
                 />
             </div>
-        <ErrorMessage name="Image"/>    
+        <ErrorMessage class="error" name="Image"/>    
         </VeeForm>
 </template>

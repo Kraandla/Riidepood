@@ -52,37 +52,40 @@
 
 <template>
         <VeeForm ref="descriptionInputForm" :validation-schema="chooseSchema">
-            <div>
-                Material:
+            <div class="input-group">
+                <span class="bg-dark input-group-text col-4" id="inputGroup-sizing-default">Material</span>
                 <VeeField
+                class="form-control"
                 name="Material"
                 as="input"
                 type="text"
                 v-model="descriptionToBeEdited.Material"
                 />
             </div>
-            <ErrorMessage name="Material" />
+            <ErrorMessage class="error" name="Material" />
 
-            <div>
-                Color:
+            <div class="input-group">
+                <span class="bg-dark input-group-text col-4" id="inputGroup-sizing-default">Color</span>
                 <VeeField
+                class="form-control"
                 name="Color"
                 as="input"
                 type="text"
                 v-model="descriptionToBeEdited.Color"
                 />
             </div>
-            <ErrorMessage name="Color" />
+            <ErrorMessage class="error" name="Color" />
 
-            <div>
-                Size:
+            <div class="input-group">
+                <span class="bg-dark input-group-text col-4" id="inputGroup-sizing-default">Size</span>
                 <VeeField
+                class="form-control"
                 name="Size"
                 type="text"
                 as="input"
                 v-model="descriptionToBeEdited.Size"
                 />
             </div>
-        <ErrorMessage name="Size"/>
+        <ErrorMessage class="error" name="Size"/>
         </VeeForm>
 </template>

@@ -18,41 +18,61 @@
                 });
                 order.Status = newStatus;
             },
+            goToOrderDetails(item){
+                this.$router.push({ name: 'singleOrder', params: { itemID: item.OrderID } })
+            }
         }
     }
 </script>
 
 <template>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Order ID</th>
-                <th>Order Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="item in items" :key="item.OrderID">
-                <td>
-                    <router-link :to="{ name: 'singleOrder', params: { itemID: item.OrderID } }">
-                                {{item.OrderID}}
-                            </router-link>
-                </td>
-                <td v-if="item.Status == 1">
-                    Confirmed
-                </td>
-                <td v-else>
-                    Unconfirmed
-                </td>
-                <td>
-                    <button @click="updateOrderStatus(item)">
-                        Confirm/Unconfirm
-                    </button>
-                </td>
-                <td>
-                    <order-delete-button :seekID="item.OrderID"/>
-                </td>
-            </tr>
-        </tbody>
+<table class="table table-hover table-dark table-striped w-100">
+  <thead>
+    <tr class="table-row">
+      <th>Nr</th>
+      <th>Order ID</th>
+      <th>Order Status</th>
+      <th>
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+        <tr
+        class="table-row"
+        style="cursor: pointer;"
+        v-for="(item, index) in items"
+        :key="item.OrderID"
+        >
+        <td @click="goToOrderDetails(item)">
+            {{ index + 1 }}
+        </td>
+
+        <td @click="goToOrderDetails(item)">
+            {{ item.OrderID }}
+        </td>
+
+        <td @click="goToOrderDetails(item)">
+            <span v-if="item.Status == 1">Confirmed</span>
+            <span v-else>Unconfirmed</span>
+        </td>
+
+        <td>
+            <div class="flex-row w-100 d-inline-flex">
+            <button
+                class="btn btn-primary col-6 me-auto"
+                @click="updateOrderStatus(item)"
+            >
+                Confirm / Unconfirm
+            </button>
+
+            <order-delete-button
+                :seekID="item.OrderID"
+            />
+            </div>
+        </td>
+        </tr>
+    </tbody>
     </table>
     <button><router-link :to="{ name: 'newOrder'}">Create new order</router-link></button>
 </template>

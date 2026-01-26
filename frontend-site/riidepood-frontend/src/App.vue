@@ -21,7 +21,12 @@
   text-align: center;
   color: #2c3e50;
 }
-
+.error {
+  color:red;
+}
+body {
+  background-color: #adcae7;
+}
 nav {
   padding: 30px;
 }

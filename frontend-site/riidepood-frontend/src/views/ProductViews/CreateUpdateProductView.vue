@@ -151,22 +151,22 @@
 
 <template v-if="thisProduct">
 <div v-if="!editMode">
-    
+    <h1>Create a new product</h1>
+    <div class="bg-dark d-flex mt-0 justify-content-center w-100">
     <ProductInputSection ref="productInputForm" :seekID="seekID"/>
-    <button type="button" v-if="!descriptionWillBeValidatedCheck" @click="descriptionWillBeValidatedCheck = true">Add description</button>
-    <DescriptionInputSection :descr v-if="descriptionWillBeValidatedCheck" ref="descriptionInputForm"/>
-    
-    <div>
-        <button @click="formValidation()">Create</button>
-        <button type="button" @click="$router.push({ name: 'products' })">Back</button>
-        <button type="button" v-if="descriptionWillBeValidatedCheck" @click="descriptionWillBeValidatedCheck = false">Remove description</button>
+    <DescriptionInputSection class="ms-4" :descr v-if="descriptionWillBeValidatedCheck" ref="descriptionInputForm"/>
+    </div> 
+    <div class="bg-dark d-flex mt-0 pb-2 justify-content-center">
+        <button class="m-2 btn btn-primary" @click="formValidation()">Create</button>
+        <button class="m-2 btn btn-secondary" type="button" @click="$router.push({ name: 'products' })">Back</button>
+        <button class="m-2 btn btn-warning" type="button" v-if="descriptionWillBeValidatedCheck" @click="descriptionWillBeValidatedCheck = false">Remove description</button>
+        <button class="m-2 btn btn-warning" type="button" v-if="!descriptionWillBeValidatedCheck" @click="descriptionWillBeValidatedCheck = true">Add description</button>
     </div>
-
  </div>
 
  <div v-else>
-        <ProductDetailsTable :thisProduct="thisProduct" :thisDescription="thisDescription"/>
-    <h1>Update Item</h1>
+    <h1 class="mt-5 mb-0">Update Item</h1>
+        <ProductDetailsTable :thisProduct="thisProduct" :thisDescription="thisDescription"/> 
         <ProductInputSection ref="productInputForm" :seekID="seekID"/>
         <button type="button" v-if="!descriptionWillBeValidatedCheck" @click="descriptionWillBeValidatedCheck = true">Edit Description</button>
     <div v-if="descriptionWillBeValidatedCheck">

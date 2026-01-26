@@ -47,8 +47,8 @@
                 <td @click="goToProductDetails(item)">{{ item.Name }}</td>
                 <td @click="goToProductDetails(item)">{{ item.Price }} €</td>
 
-                <td v-if="!item.Image">No image</td>
-                <td v-else>Has an image</td>
+                <td @click="goToProductDetails(item)" v-if="!item.Image">No image</td>
+                <td @click="goToProductDetails(item)" v-else>Has an image</td>
 
                 <td>
                     <div class="flex-row w-100 d-inline-flex flex-row">
