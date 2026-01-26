@@ -27,27 +27,72 @@ const routes: Array<RouteRecordRaw> = [
     meta: { requiresAuth: true }
   },
   {
+    path: '/basket',
+    name: 'basket',
+    component: () => import('../components/CartPage.vue'),
+    meta: { requiresAuth: false }
+  },
+
+  //product routes
+  {
     path: '/products',
     name: 'products',
-    component: () => import('../views/ProductsView.vue')
+    component: () => import('../views/ProductViews/ProductsView.vue'),
+    meta: { requiresAuth: true, requiresAdmin: true }
   },
   {
     path: '/products/:itemID',
     name: 'singleProduct',
-    component: () => import('../views/SingleProductView.vue'),
+    component: () => import('../views/ProductViews/SingleProductView.vue'),
     props: route => {return{seekID: String(route.params.itemID)}}
   },
   {
     path: '/newProduct',
     name: 'newProduct',
-    component: () => import('../views/CreateProductView.vue')
+    component: () => import('../views/CreateProductView.vue'),
+    meta: { requiresAuth: true, requiresAdmin: true }
   },
   {
     path: '/admin/users',
     name: 'adminUsers',
     component: () => import('../views/AdminUsersView.vue'),
     meta: { requiresAuth: true, requiresAdmin: true }
-  }
+  },
+  {
+    path: '/editProduct/:itemID',
+    name: 'editProduct',
+    component: () => import('../views/ProductViews/CreateUpdateProductView.vue'),
+    props: route => {return{seekID: String(route.params.itemID)}},
+    meta: { requiresAuth: true, requiresAdmin: true }
+  },
+
+  //order routes
+    {
+    path: '/orders',
+    name: 'orders',
+    component: () => import('../views/OrderViews/OrdersView.vue'),
+    meta: { requiresAuth: true, requiresAdmin: true }
+  },
+  {
+    path: '/orders/:itemID',
+    name: 'singleOrder',
+    component: () => import('../views/OrderViews/SingleOrderView.vue'),
+    props: route => {return{seekID: String(route.params.itemID)}},
+    meta: { requiresAuth: true, requiresAdmin: false }
+  },
+  {
+    path: '/newOrder',
+    name: 'newOrder',
+    component: () => import('../views/OrderViews/CreateUpdateOrderView.vue'),
+    meta: { requiresAuth: true, requiresAdmin: true }
+  },
+  {
+    path: '/editOrder/:itemID',
+    name: 'editOrder',
+    component: () => import('../views/OrderViews/CreateUpdateOrderView.vue'),
+    props: route => {return{seekID: String(route.params.itemID)}},
+    meta: { requiresAuth: true, requiresAdmin: true }
+  },
 ];
 
 const router = createRouter({

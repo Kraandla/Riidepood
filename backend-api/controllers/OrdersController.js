@@ -60,10 +60,10 @@ exports.modifiyById =
 async (req, res) => {
     const orderToBeModified = await getOrder(req, res);
     if (!orderToBeModified) {return res.status(404).send({error: 'Order not found'});}
-
-    if(!req.body.Status || orderToBeModified.Status == req.body.Status)
+    console.log("Status: ", req.body.Status)
+    console.log("Status check: ", !req.body.Status)
+    if(orderToBeModified.Status === req.body.Status || isNaN(req.body.Status))
         {return res.status(400).send({error: 'No new parameters given or they are invalid.'})};
-    
     orderToBeModified.Status = req.body.Status;
     await orderToBeModified.save();
 
@@ -75,6 +75,7 @@ async (req, res) => {
 const getOrder =
 async (req, res) => {    
     const id = req.params.OrderID;
+    console.log(id)
     const order = await db.orders.findByPk(id, {
         include: [{model: Product}]
     });
