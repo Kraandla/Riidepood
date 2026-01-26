@@ -6,6 +6,14 @@ module.exports = (sequelize, DataTypes) => {
                 primaryKey: true,
                 defaultValue: DataTypes.UUID,
             },
+            UserID: {
+                type: DataTypes.UUID,
+                allowNull: true,  // or false if required
+                references: {
+                    model: 'Users',
+                    key: 'UserID'
+                }
+            },
             Status: {
                 type: DataTypes.TINYINT(1),
                 allowNull: false,

@@ -1,5 +1,6 @@
 <script> 
     import OrdersTable from '../../components/OrderComponents/OrdersTable.vue'
+    import { useApiPrivate } from '../../composables/useApi'
     
     export default {
         components: {
@@ -7,11 +8,16 @@
         },
         data() {
             return {
-            allOrders: []
+                allOrders: []
             }
         },
         async created() {
-            this.allOrders = await (await fetch('http://localhost:8080/orders')).json();
+            try {
+                const response = await useApiPrivate().get('/orders');
+                this.allOrders = response.data;
+            } catch (error) {
+                console.error('Failed to fetch orders:', error);
+            }
         }
     }
 </script>

@@ -3,72 +3,71 @@ const CategoryController = require("../controllers/CategoryController");
 const UserController = require("../controllers/UserContoller");
 const DescriptionsController = require("../controllers/DescriptionsController");
 const OrdersController = require("../controllers/OrdersController");
-const express = require('express');
+const express = require("express");
 const AuthController = require("../controllers/AuthController");
-const authMiddleware = require("../middleware/auth")
-const adminMiddleware = require("../middleware/admin")
-const autenticateToken = require('../middleware/authentication.js');
-
-
-
-
+const authMiddleware = require("../middleware/auth");
+const adminMiddleware = require("../middleware/admin");
+const autenticateToken = require("../middleware/authentication.js");
 
 module.exports = (app) => {
+  app.post("/auth/register", AuthController.register);
+  app.post("/auth/login", AuthController.login);
+  app.post("/auth/logout", AuthController.logout);
+  app.post("/auth/refresh", AuthController.refresh);
+  app.get("/auth/user", autenticateToken, authMiddleware, AuthController.user);
+  app.put("/auth/user", autenticateToken, authMiddleware, AuthController.updateUser);
 
-    app.post('/auth/register', AuthController.register);
-    app.post('/auth/login', AuthController.login);
-    app.post('/auth/logout', AuthController.logout);
-    app.post('/auth/refresh', AuthController.refresh);
-    app.get('/auth/user', autenticateToken,authMiddleware, AuthController.user);
-    app.put('/auth/user', autenticateToken,authMiddleware, AuthController.updateUser);
+  app.route("/products").get(ProductsController.getAll).post(ProductsController.create);
 
-    app.route("/products")
-    .get(ProductsController.getAll)
-    .post(ProductsController.create);
-
-    app.route("/products/:ProductID")
+  app
+    .route("/products/:ProductID")
     .get(ProductsController.getByID)
     .delete(ProductsController.deleteById)
     .put(ProductsController.modifyById);
 
-    app.route('/categorys')
-    .post(CategoryController.create)
-    .get(CategoryController.getAll);
+  app.route("/categorys").post(CategoryController.create).get(CategoryController.getAll);
 
-    app.route("/categorys/:CategoryID")
+  app
+    .route("/categorys/:CategoryID")
     .delete(CategoryController.deleteById)
     .get(CategoryController.getCategoryByID)
     .put(CategoryController.updateCategoryByID);
 
-    app.route('/users')
+  app
+    .route("/users")
     .get(autenticateToken, authMiddleware, adminMiddleware, UserController.getAll)
     .post(UserController.createUser);
 
-    app.route('/users/:UserID')
+  app
+    .route("/users/:UserID")
     .get(UserController.getUserByID)
     .put(UserController.updateUserByID)
     .delete(UserController.deleteUserByID);
-    
 
-    app.put('/users/:UserID/toggle-admin', autenticateToken, authMiddleware, adminMiddleware, UserController.toggleAdmin);
+  app.put(
+    "/users/:UserID/toggle-admin",
+    autenticateToken,
+    authMiddleware,
+    adminMiddleware,
+    UserController.toggleAdmin,
+  );
 
-    app.route("/descriptions")
-    .get(DescriptionsController.getAll)
-    .post(DescriptionsController.create);
+  app.route("/descriptions").get(DescriptionsController.getAll).post(DescriptionsController.create);
 
-    app.route("/descriptions/:DescriptionID")
+  app
+    .route("/descriptions/:DescriptionID")
     .get(DescriptionsController.getByID)
     .put(DescriptionsController.modifyById)
     .delete(DescriptionsController.deleteById);
 
-    app.route("/orders")
-    .get(OrdersController.getAll)
-    .post(OrdersController.create);
+  app
+    .route("/orders")
+    .get(autenticateToken, authMiddleware, OrdersController.getAll)
+    .post(autenticateToken, authMiddleware, OrdersController.create);
 
-    app.route("/orders/:OrderID")
-    .delete(OrdersController.deleteById)
-    .put(OrdersController.modifiyById)
-    .get(OrdersController.getById);
-
-    
-}
+  app
+    .route("/orders/:OrderID")
+    .delete(autenticateToken, authMiddleware, OrdersController.deleteById)
+    .put(autenticateToken, authMiddleware, OrdersController.modifiyById)
+    .get(autenticateToken, authMiddleware, OrdersController.getById);
+};

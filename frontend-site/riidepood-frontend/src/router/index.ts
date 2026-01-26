@@ -71,7 +71,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/orders',
     name: 'orders',
     component: () => import('../views/OrderViews/OrdersView.vue'),
-    meta: { requiresAuth: true, requiresAdmin: true }
+    meta: { requiresAuth: true, requiresAdmin: false }
   },
   {
     path: '/orders/:itemID',

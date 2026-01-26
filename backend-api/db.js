@@ -40,6 +40,9 @@ db.descriptions.hasOne(db.products);
 db.products.belongsToMany(db.orders, {through: 'OrderedProducts'});
 db.orders.belongsToMany(db.products, {through: 'OrderedProducts'});
 
+db.users.hasMany(db.orders, { foreignKey: 'UserID' });
+db.orders.belongsTo(db.users, { foreignKey: 'UserID' });
+
 const sync = (async () => {
     await sequelize.sync({alter: true});
     console.log('DB sync has been completed.');

@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { useApiPrivate } from "../composables/useApi";
 
 export type ProductId = string
 
@@ -25,13 +26,16 @@ export const useCartStore = defineStore('cart', {
             this.items = []
         },
         async checkout(){
-                await fetch('http://localhost:8080/orders', {
-                    method: 'POST',
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({Products: this.items}),
+            try {
+                await useApiPrivate().post('/orders', {
+                    Products: this.items
                 });
                 this.clear();
-            },
+            } catch (error) {
+                console.error('Checkout failed:', error);
+                throw error;
+            }
+        },
     }
     
 })
