@@ -33,7 +33,7 @@
                 body: JSON.stringify({Status: newStatus})
             });
             order.Status = newStatus;
-            this.$r
+            this.$router.push({ name: 'orders' });
         },
     }
     }

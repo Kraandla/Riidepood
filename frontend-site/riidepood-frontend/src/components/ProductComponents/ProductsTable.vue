@@ -56,6 +56,7 @@
                             Edit
                     </router-link>
                     <product-delete-button :seekID="item.ProductID" :items="items" />
+                    <!-- <add-to-cart :product-id="item.ProductID"/> -->
                     </div>
                 </td>
             </tr>

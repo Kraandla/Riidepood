@@ -166,18 +166,19 @@
 
  <div v-else>
     <h1 class="mt-5 mb-0">Update Item</h1>
+        
         <ProductDetailsTable :thisProduct="thisProduct" :thisDescription="thisDescription"/> 
+        <div class="bg-dark d-flex mt-3 pb-2 justify-content-center">       
         <ProductInputSection ref="productInputForm" :seekID="seekID"/>
-        <button type="button" v-if="!descriptionWillBeValidatedCheck" @click="descriptionWillBeValidatedCheck = true">Edit Description</button>
-    <div v-if="descriptionWillBeValidatedCheck">
-        <DescriptionInputSection :seekID="seekID" ref="descriptionInputForm"/>
+        <DescriptionInputSection class="ms-4"  v-if="descriptionWillBeValidatedCheck" :seekID="seekID" ref="descriptionInputForm"/>
+        </div>
     </div>
 
-    <div>
-        <button @click="formValidation()">Confirm edit</button>
-        <button type="button" v-if="descriptionWillBeValidatedCheck" @click="descriptionWillBeValidatedCheck = false">Remove current edit description</button>
-        <button type="button" v-if="descriptionWillBeValidatedCheck && thisProduct.DescriptionDescriptionID" @click="deleteDescription">Delete description</button>
-        <button type="button" @click="$router.push({ name: 'products' })">Back</button>
+    <div class="bg-dark d-flex mt-0 pb-2 justify-content-center">
+        <button class="m-2 btn btn-primary" @click="formValidation()">Confirm edit</button>
+        <button class="m-2 btn btn-warning" type="button" v-if="!descriptionWillBeValidatedCheck" @click="descriptionWillBeValidatedCheck = true">Edit Description</button>        
+        <button class="m-2 btn btn-warning" type="button" v-if="descriptionWillBeValidatedCheck" @click="descriptionWillBeValidatedCheck = false">Remove current description</button>
+        <button class="m-2 btn btn-danger" type="button" v-if="descriptionWillBeValidatedCheck && thisProduct.DescriptionDescriptionID" @click="deleteDescription">Delete description</button>
+        <button class="m-2 btn btn-secondary" type="button" @click="$router.push({ name: 'products' })">Back</button>
     </div>
- </div>
 </template>

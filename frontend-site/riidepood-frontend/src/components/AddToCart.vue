@@ -21,7 +21,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <button @click="addToCart" :disabled="inCart">
+  <button class="btn btn-warning" @click="addToCart" :disabled="inCart">
     {{ inCart ? 'In Cart' : 'Add to Cart' }}
   </button>
 </template>
