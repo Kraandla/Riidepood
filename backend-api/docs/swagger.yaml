@@ -835,6 +835,13 @@ paths:
         put:
             tags:
                 - Users
+            parameters:
+                -
+                    name: UserID
+                    description: User id
+                    in: path
+                    required: true
+                    type: string
             responses:
                 '200':
                     description: User isAdmin status change success
