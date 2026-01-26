@@ -5,14 +5,13 @@ import NavBar from './components/NavBar.vue'
 </script>
 
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/products">Products</router-link> |
-    <router-link to="/orders">Orders</router-link> |
-    <router-link to="/basket">Basket</router-link>
-  </nav>
-  <router-view />
+
+  <div id="app">
+    <NavBar />
+    <RouterView />
+  </div>
+
+
 </template>
 
 <style>

@@ -14,6 +14,13 @@
           <li class="nav-item">
             <router-link :to="{ name: 'products' }" class="nav-link" aria-current="page">Products</router-link>
           </li>
+
+          <li class="nav-item" v-if="isAuthenticated">
+            <router-link :to="{ name: 'orders' }" class="nav-link" aria-current="page">Orders</router-link>
+          </li>
+          <li class="nav-item" v-if="isAuthenticated">
+            <router-link :to="{ name: 'basket' }" class="nav-link" aria-current="page">Basket</router-link>
+          </li>
         </ul>
 
         <ul class="navbar-nav mb-2 mb-lg-0">
@@ -23,7 +30,8 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
               <li><router-link :to="{ name: 'user' }" class="dropdown-item">Profile</router-link></li>
-              <li v-if="isAdmin"><router-link :to="{ name: 'adminUsers' }" class="dropdown-item">Manage Users</router-link></li>
+              <li v-if="isAdmin"><router-link :to="{ name: 'adminUsers' }" class="dropdown-item">Manage
+                  Users</router-link></li>
               <li>
                 <hr class="dropdown-divider">
               </li>

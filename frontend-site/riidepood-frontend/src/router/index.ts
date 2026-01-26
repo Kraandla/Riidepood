@@ -49,7 +49,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/newProduct',
     name: 'newProduct',
-    component: () => import('../views/CreateProductView.vue'),
+    component: () => import('../views/ProductViews/CreateUpdateProductView.vue'),
     meta: { requiresAuth: true, requiresAdmin: true }
   },
   {
