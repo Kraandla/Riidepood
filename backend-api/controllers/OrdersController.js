@@ -32,7 +32,10 @@ async (req, res) => {
         
         const AllOrders = await db.orders.findAll({
             where: whereClause,
-            include: [{model: Product}]
+            include: [
+                { model: Product },
+                { model: db.users, attributes: ['UserID', 'FirstName', 'LastName'] }
+            ]
         });
 
         console.log("getAll: " + AllOrders);
@@ -98,7 +101,10 @@ async (req, res) => {
     const id = req.params.OrderID;
     console.log(id)
     const order = await db.orders.findByPk(id, {
-        include: [{model: Product}]
+        include: [
+            { model: Product },
+            { model: db.users, attributes: ['UserID', 'FirstName', 'LastName'] }
+        ]
     });
 
     if(!order) {

@@ -39,11 +39,13 @@ export default {
 
 
 <template>
-    <table class="table table-hover table-dark table-striped w-100">
+    <table class="table table-hover table-dark table-striped w-100 mt-3">
         <thead>
             <tr class="table-row">
                 <th>Nr</th>
                 <th>Order ID</th>
+                <th>Date</th>
+                <th v-if="isAdmin">User</th>
                 <th>Order Status</th>
                 <th>
                 </th>
@@ -58,6 +60,16 @@ export default {
 
                 <td @click="goToOrderDetails(item)">
                     {{ item.OrderID }}
+                </td>
+                <td @click="goToOrderDetails(item)">
+                    {{ new Date(item.createdAt).toLocaleDateString('et-EE', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    }) }}   
+                </td>
+                <td v-if="isAdmin" @click="goToOrderDetails(item)">
+                    {{ item.User ? (item.User.FirstName + ' ' + item.User.LastName) : item.UserID }}
                 </td>
 
                 <td @click="goToOrderDetails(item)">
@@ -78,5 +90,5 @@ export default {
             </tr>
         </tbody>
     </table>
-    <button><router-link :to="{ name: 'newOrder' }">Create new order</router-link></button>
+  
 </template>
