@@ -20,11 +20,11 @@
 </style>
 <template>
     <div class="d-flex mt-0 justify-content-center table-responsive w-100">
-    <table class="details-table" v-if="thisProduct">
+    <table class="details-table mt-5"  v-if="thisProduct" >
         <tbody>
-            <tr>
-                <td>Product ID</td>
-                <td>{{thisProduct.ProductID}}</td>
+            <tr >
+               
+                <td colspan="2" class="text-center"><img :src="thisProduct.Image" alt="Product Image" width="150" height="150" style="border-radius: 20px;"/></td>
             </tr>
             <tr>
                 <td>Product Name</td>
@@ -34,10 +34,7 @@
                 <td>Product Price</td>
                 <td>{{thisProduct.Price}}</td>
             </tr>
-            <tr>
-                <td>Product Image</td>
-                <td>{{thisProduct.Image}}</td>
-            </tr>
+       
                 <tr v-if="thisProduct.DescriptionDescriptionID">
                     <td>Product Material</td>
                     <td v-if="thisDescription">{{thisDescription.Material}}</td>

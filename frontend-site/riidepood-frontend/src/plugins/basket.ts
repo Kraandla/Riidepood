@@ -5,7 +5,7 @@ export type ProductId = string
 
 export const useCartStore = defineStore('cart', {
     state: () => ({
-        items: [] as ProductId[],
+        items: (JSON.parse(localStorage.getItem('cart_items') || '[]') as ProductId[]),
     }),
     getters: {
         isInCart: (state) => {
@@ -17,13 +17,16 @@ export const useCartStore = defineStore('cart', {
         add(id: ProductId) {     
             if (!this.items.includes(id)) {
                 this.items.push(id);
+                this.save()
             }
         },
         remove(id: ProductId) {
             this.items = this.items.filter((item) => item !== id);
+            this.save()
         },
         clear(){
             this.items = []
+            this.save()
         },
         async checkout(){
             try {
@@ -36,6 +39,13 @@ export const useCartStore = defineStore('cart', {
                 throw error;
             }
         },
+        save() {
+            try {
+                localStorage.setItem('cart_items', JSON.stringify(this.items))
+            } catch (e) {
+                console.error('Failed to save cart to localStorage', e)
+            }
+        }
     }
     
 })
