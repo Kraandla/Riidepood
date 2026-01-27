@@ -172,7 +172,6 @@
         <ProductInputSection ref="productInputForm" :seekID="seekID"/>
         <DescriptionInputSection class="ms-4"  v-if="descriptionWillBeValidatedCheck" :seekID="seekID" ref="descriptionInputForm"/>
         </div>
-    </div>
 
     <div class="bg-dark d-flex mt-0 pb-2 justify-content-center">
         <button class="m-2 btn btn-primary" @click="formValidation()">Confirm edit</button>
@@ -181,4 +180,5 @@
         <button class="m-2 btn btn-danger" type="button" v-if="descriptionWillBeValidatedCheck && thisProduct.DescriptionDescriptionID" @click="deleteDescription">Delete description</button>
         <button class="m-2 btn btn-secondary" type="button" @click="$router.push({ name: 'products' })">Back</button>
     </div>
+</div>
 </template>
